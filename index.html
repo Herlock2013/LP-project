@@ -26,7 +26,7 @@
 <body>
     <header class="header" id="header">
         <div class="header-inner">
-            <h1 class="logo"><img src="images/logo.png" alt="HerLock"></h1>
+            <h1 class="logo"><a href="index.html" style="display: block; width: 100%; height: 100%;"><img src="images/logo.png" alt="HerLock"></a></h1>
             <!-- Hamburger Button -->
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span>
@@ -97,7 +97,16 @@
                     </li>
                     <li>
                         <span class="news-date">2026.03.20</span>
-                        <a href="#" class="news-title">【記念日向け】特製チョコアートプレートのご予約承り中。</a>
+                        <a href="anniversary.html" class="news-title">【記念日向け】特製チョコアートプレートのご予約承り中。</a>
+                    </li>
+                    <li>
+                        <span class="news-date">2026.03.20</span>
+                        <details class="news-accordion">
+                            <summary class="news-title">個室（最大8名様）・半個室のご案内 <span class="toggle-icon">+</span></summary>
+                            <div class="news-content">
+                                プライベートな空間でお食事をお楽しみいただける完全個室（約8名様収容）と、適度なプライベート感を保つ半個室をご用意しております。
+                            </div>
+                        </details>
                     </li>
                 </ul>
             </div>
@@ -143,19 +152,21 @@
             <div class="container fade-in-up">
                 <h2 class="section-title">GALLERY</h2>
                 <div class="gallery-grid">
-                    <!-- Row 1 -->
+                    <!-- Interior & Atmosphere -->
                     <img src="images/hero_bg.png" alt="Interior">
-                    <img src="images/gallery_seafood.jpg" alt="Seafood Paella & Yamazaki" style="filter: contrast(1.15) saturate(1.2) brightness(1.05); object-position: center;">
                     <img src="images/private_room_new.png" alt="Private Room">
-                    <!-- Row 2 -->
+                    <img src="images/gallery_new1.jpg" alt="Interior Details" style="filter: contrast(1.1) saturate(1.1); object-position: center;">
+                    
+                    <!-- Bar & Drinks -->
+                    <img src="images/bartender.png" alt="Bartender">
+                    <img src="images/gallery_new2.jpg" alt="Drinks" style="filter: contrast(1.1) saturate(1.1); object-position: center;">
+                    <img src="images/gin_bottles.jpg" alt="Craft Gin Bottles" style="filter: contrast(1.1) saturate(1.1); object-position: center;">
+                    
+                    <!-- Food -->
                     <img src="images/steak_new.jpg" alt="Beef Steak" style="filter: contrast(1.1) saturate(1.1); object-position: center;">
+                    <img src="images/gallery_seafood.jpg" alt="Seafood Paella & Yamazaki" style="filter: contrast(1.15) saturate(1.2) brightness(1.05); object-position: center;">
                     <img src="images/gallery_lamb.jpg" alt="Lamb Chops" style="filter: contrast(1.15) saturate(1.2) brightness(1.05); object-position: center;">
                     <img src="images/gallery_pasta.jpg" alt="Lemon Salmon Pasta" style="filter: contrast(1.1) saturate(1.1); object-position: center;">
-                    <!-- Row 3 -->
-                    <img src="images/bartender.png" alt="Bartender">
-                    <img src="images/gin_bottles.jpg" alt="Craft Gin Bottles" style="filter: contrast(1.1) saturate(1.1); object-position: center;">
-                    <img src="images/gallery_new1.jpg" alt="Interior Details" style="filter: contrast(1.1) saturate(1.1); object-position: center;">
-                    <img src="images/gallery_new2.jpg" alt="Drinks" style="filter: contrast(1.1) saturate(1.1); object-position: center;">
                 </div>
             </div>
         </section>
