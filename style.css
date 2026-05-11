@@ -472,11 +472,51 @@ img {
     transform: translateY(50%) rotate(-45deg);
 }
 
+/* Floating Action Button */
+.fab-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.98);
+    padding: 0.8rem 5%;
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    display: none;
+}
+
+.fab-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    background-color: #C0392B;
+    color: #ffffff !important;
+    border-radius: 4px;
+    font-size: 1.05rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(192, 57, 43, 0.3);
+    transition: opacity 0.3s ease;
+}
+
+.fab-btn:hover {
+    opacity: 0.9;
+}
+
 /* Responsive Utilities */
 .sp-br { display: none; }
 
 /* Responsive */
 @media (max-width: 768px) {
+    body {
+        padding-bottom: 70px; /* 固定ボタン分の余白 */
+    }
+    .fab-container {
+        display: block;
+    }
     .pc-br { display: none; }
     .sp-br { display: block; }
 
