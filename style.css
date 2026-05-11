@@ -1,7 +1,7 @@
 :root {
     --color-bg: #ffffff;
     --color-text: #1a1a1a;
-    --color-text-light: #666666;
+    --color-text-light: #444444; /* 視認性向上のため少し濃いグレーに */
     --color-border: #e0e0e0;
     
     --font-en: 'Cormorant Garamond', 'Inter', serif;
@@ -99,7 +99,7 @@ img {
 }
 
 .nav-list a {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     color: var(--color-text);
 }
 
@@ -163,7 +163,7 @@ img {
 .about-content {
     flex: 1;
     text-align: left;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     color: var(--color-text-light);
 }
 
@@ -178,7 +178,7 @@ img {
     display: flex;
     border-bottom: 1px solid var(--color-border);
     padding: 1.5rem 0;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .news-date {
@@ -224,7 +224,7 @@ img {
     padding: 1rem;
     background-color: rgba(0, 0, 0, 0.02);
     border-radius: 4px;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     color: var(--color-text-light);
     line-height: 1.8;
 }
@@ -267,7 +267,7 @@ img {
 }
 
 .menu-text p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--color-text-light);
 }
 
@@ -295,7 +295,7 @@ img {
 /* Reservation */
 .reservation-text {
     margin-bottom: 2rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--color-text-light);
 }
 
@@ -307,14 +307,14 @@ img {
 }
 
 .reservation-info {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--color-text-light);
     line-height: 1.8;
 }
 
 .reservation-notice {
-    font-size: 0.8rem;
-    color: #999;
+    font-size: 0.9rem;
+    color: #666; /* コントラストを上げるため濃く */
     margin-bottom: 1.5rem;
 }
 
@@ -323,7 +323,7 @@ img {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     color: var(--color-text);
     text-decoration: none;
     border-bottom: 1px solid var(--color-text);
@@ -357,7 +357,7 @@ img {
 
 /* Access */
 .access-info {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     color: var(--color-text-light);
     margin-bottom: 2.5rem;
 }
@@ -409,7 +409,7 @@ img {
 
 .copyright {
     font-family: var(--font-en);
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     color: var(--color-text-light);
 }
 
