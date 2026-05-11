@@ -121,6 +121,32 @@ img {
     object-fit: cover;
 }
 
+/* Hero CTA Button */
+.hero-cta {
+    position: absolute;
+    left: 50%;
+    bottom: 8%;
+    transform: translateX(-50%);
+    display: inline-block;
+    padding: 12px 36px;
+    background-color: #C0392B;
+    color: #ffffff !important;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    text-decoration: none;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 2;
+    white-space: nowrap;
+}
+
+.hero-cta:hover {
+    background-color: #a93226;
+    transform: translateX(-50%) scale(1.02);
+}
+
 .hero-copy {
     text-align: center;
     padding: 3rem 5% 0;
@@ -563,4 +589,9 @@ img {
     .reservation-buttons { flex-direction: column; gap: 1rem; }
     .hero-image img { height: 50vh; }
     .hero-copy p { font-size: 1.2rem; }
+    .hero-cta {
+        padding: 12px 28px;
+        font-size: 13px;
+        bottom: 10%;
+    }
 }
