@@ -97,9 +97,65 @@
                     <p style="font-size: 0.85rem; opacity: 0.8; text-align: center; margin-bottom: 3rem;">
                         ※上記以外にも、ご予算に合わせて【1,000円単位】でプランのカスタマイズが可能です。お気軽にご相談ください。
                     </p>
-                    
+
+                    <!-- À la carte Menu Gallery -->
+                    <h3 style="font-family: var(--font-ja); font-size: 1.3rem; margin: 3rem 0 1.5rem; text-align: center; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem;">アラカルトメニュー</h3>
+                    <p style="margin-bottom: 1.5rem; text-align: center; font-size: 0.95rem; color: var(--color-text-light);">
+                        一品料理から〆のパスタ、デザートまで。<br class="sp-br">
+                        お好きなお料理をお好きなだけお楽しみください。
+                    </p>
+                    <p style="font-size: 0.8rem; opacity: 0.6; text-align: center; margin-bottom: 1.5rem;">← 左右にスワイプしてご覧ください →</p>
+
+                    <div class="alacarte-gallery" style="overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; display: flex; gap: 1rem; padding-bottom: 1rem; margin-bottom: 1.5rem; max-width: 100%;">
+                        <div style="min-width: 85%; max-width: 85%; scroll-snap-align: center; flex-shrink: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            <img src="images/menu_alacarte_1.jpg" alt="おすすめメニュー" style="width: 100%; height: auto; display: block; max-width: 100%;">
+                        </div>
+                        <div style="min-width: 85%; max-width: 85%; scroll-snap-align: center; flex-shrink: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            <img src="images/menu_alacarte_2.jpg" alt="チーズメニュー" style="width: 100%; height: auto; display: block; max-width: 100%;">
+                        </div>
+                        <div style="min-width: 85%; max-width: 85%; scroll-snap-align: center; flex-shrink: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            <img src="images/menu_alacarte_3.jpg" alt="一品メニュー（アペタイザー）" style="width: 100%; height: auto; display: block; max-width: 100%;">
+                        </div>
+                        <div style="min-width: 85%; max-width: 85%; scroll-snap-align: center; flex-shrink: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            <img src="images/menu_alacarte_4.jpg" alt="アラカルトメニュー（サラダ・アヒージョ・ピザ・ライス）" style="width: 100%; height: auto; display: block; max-width: 100%;">
+                        </div>
+                        <div style="min-width: 85%; max-width: 85%; scroll-snap-align: center; flex-shrink: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            <img src="images/menu_alacarte_5.jpg" alt="アントレメニュー（肉・魚料理）" style="width: 100%; height: auto; display: block; max-width: 100%;">
+                        </div>
+                        <div style="min-width: 85%; max-width: 85%; scroll-snap-align: center; flex-shrink: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            <img src="images/menu_alacarte_6.jpg" alt="パスタ・ドルチェメニュー" style="width: 100%; height: auto; display: block; max-width: 100%;">
+                        </div>
+                    </div>
+
+                    <!-- Page Indicator Dots -->
+                    <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 1rem;">
+                        <span class="dot active" style="width: 8px; height: 8px; border-radius: 50%; background: #d4af37; transition: background 0.3s;"></span>
+                        <span class="dot" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.2); transition: background 0.3s;"></span>
+                        <span class="dot" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.2); transition: background 0.3s;"></span>
+                        <span class="dot" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.2); transition: background 0.3s;"></span>
+                        <span class="dot" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.2); transition: background 0.3s;"></span>
+                        <span class="dot" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.2); transition: background 0.3s;"></span>
+                    </div>
+                    <p style="font-size: 0.8rem; opacity: 0.6; text-align: center; margin-bottom: 3rem;">※価格はすべて税抜表示です。別途消費税が加算されます。</p>
+
+                    <script>
+                    (function() {
+                        const gallery = document.querySelector('.alacarte-gallery');
+                        const dots = document.querySelectorAll('.dot');
+                        if (!gallery || !dots.length) return;
+                        gallery.addEventListener('scroll', function() {
+                            const scrollLeft = gallery.scrollLeft;
+                            const itemWidth = gallery.children[0].offsetWidth + 16; // gap
+                            const index = Math.round(scrollLeft / itemWidth);
+                            dots.forEach(function(dot, i) {
+                                dot.style.background = i === index ? '#d4af37' : 'rgba(0,0,0,0.2)';
+                            });
+                        });
+                    })();
+                    </script>
+
                     <div class="text-center">
-                        <a href="https://www.hotpepper.jp/strJ001041666/" target="_blank" class="btn btn-line">詳しいメニュー・ご予約はこちら</a>
+                        <a href="https://www.hotpepper.jp/strJ001041666/" target="_blank" class="btn btn-line">ご予約はこちら</a>
                     </div>
                 </div>
             </div>
