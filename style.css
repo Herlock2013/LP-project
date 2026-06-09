@@ -370,6 +370,30 @@ img {
     color: var(--color-bg);
 }
 
+.btn-girls {
+    border-color: #C0392B;
+    color: #C0392B;
+}
+
+.btn-girls:hover,
+.btn-line.btn-girls:hover {
+    background-color: #C0392B;
+    color: #ffffff;
+    border-color: #C0392B;
+}
+
+.btn-gold {
+    border-color: #d4af37;
+    color: #d4af37;
+}
+
+.btn-gold:hover,
+.btn-line.btn-gold:hover {
+    background-color: #d4af37;
+    color: #ffffff;
+    border-color: #d4af37;
+}
+
 /* Access */
 .access-info {
     font-size: 1.05rem;

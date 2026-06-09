@@ -46,14 +46,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const observerOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.15
+        threshold: 0.05 // 視認性のタイミングを早めにするため、交差基準を低めに設定
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // observer.unobserve(entry.target); // Optional: Stop observing once visible
+                observer.unobserve(entry.target); // 表示されたら監視を終了してリソースを解放
             }
         });
     }, observerOptions);
@@ -63,7 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Trigger animations for elements already in viewport on load
     setTimeout(() => {
-        const heroElements = document.querySelectorAll('.hero .fade-in');
+        // .hero要素自身、およびその中のfade-in対象要素を初期表示
+        const heroElements = document.querySelectorAll('.hero, .hero .fade-in, .hero .fade-in-up');
         heroElements.forEach(el => el.classList.add('visible'));
     }, 100);
 });
