@@ -74,14 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="gallery-lightbox__nav gallery-lightbox__nav--prev" type="button" aria-label="Previous image">&lsaquo;</button>
             <figure class="gallery-lightbox__figure">
                 <img class="gallery-lightbox__image" src="" alt="">
-                <figcaption class="gallery-lightbox__caption"></figcaption>
             </figure>
             <button class="gallery-lightbox__nav gallery-lightbox__nav--next" type="button" aria-label="Next image">&rsaquo;</button>
         `;
         document.body.appendChild(lightbox);
 
         const lightboxImage = lightbox.querySelector('.gallery-lightbox__image');
-        const lightboxCaption = lightbox.querySelector('.gallery-lightbox__caption');
         const closeButton = lightbox.querySelector('.gallery-lightbox__close');
         const prevButton = lightbox.querySelector('.gallery-lightbox__nav--prev');
         const nextButton = lightbox.querySelector('.gallery-lightbox__nav--next');
@@ -92,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const image = galleryImages[currentIndex];
             lightboxImage.src = image.currentSrc || image.src;
             lightboxImage.alt = image.alt || '';
-            lightboxCaption.textContent = image.alt || '';
         };
 
         const openLightbox = (index) => {

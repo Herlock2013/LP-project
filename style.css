@@ -356,14 +356,6 @@ img {
     object-fit: contain;
 }
 
-.gallery-lightbox__caption {
-    margin-top: 1rem;
-    color: #ffffff;
-    font-family: var(--font-en);
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
-}
-
 .gallery-lightbox__close,
 .gallery-lightbox__nav {
     position: absolute;
