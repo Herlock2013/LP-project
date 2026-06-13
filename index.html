@@ -22,6 +22,56 @@
     <!-- 細身で洗練されたフォント（明朝体とセリフ体） -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Serif+JP:wght@200;300;400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- JSON-LD 構造化データ (ローカルSEO対策) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BarOrPub",
+      "name": "Dining bar HerLock",
+      "image": "https://diningbar-herlock.com/images/hero_staff.jpg",
+      "@id": "https://diningbar-herlock.com/",
+      "url": "https://diningbar-herlock.com/",
+      "telephone": "+81-985-35-5414",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "中央通7-7 アルカディアビル1F",
+        "addressLocality": "宮崎市",
+        "addressRegion": "宮崎県",
+        "postalCode": "880-0002",
+        "addressCountry": "JP"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 31.916053,
+        "longitude": 131.421689
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "18:00",
+          "closes": "01:30"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "18:00",
+          "closes": "24:00"
+        }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/herlock_diningbar/",
+        "https://www.hotpepper.jp/strJ001041666/",
+        "https://tabelog.com/miyazaki/A4501/A450101/45006787/"
+      ]
+    }
+    </script>
 </head>
 <body>
     <header class="header" id="header">
@@ -50,7 +100,7 @@
         <!-- Hero -->
         <section class="hero fade-in">
             <div class="hero-image">
-                <img src="images/hero_staff.jpg" alt="HerLock Staff">
+                <img src="images/hero_staff.jpg" alt="Dining bar HerLock 店内スタッフ" fetchpriority="high" width="1200" height="700" style="object-fit: cover; object-position: center;">
             </div>
             <div class="hero-copy fade-in-up">
                 <p>
@@ -66,7 +116,7 @@
                 <h2 class="section-title">ABOUT</h2>
                 <div class="about-wrapper">
                     <div class="about-image">
-                        <img src="images/about.jpg" alt="Dining bar HerLock Atmosphere" style="filter: contrast(1.1) saturate(1.1) brightness(1.05);">
+                        <img src="images/about.jpg" alt="Dining bar HerLock 店内・料理の雰囲気" style="filter: contrast(1.1) saturate(1.1) brightness(1.05); object-fit: cover; object-position: center;" loading="lazy" width="600" height="400">
                     </div>
                     <div class="about-content">
                         <p>
@@ -74,34 +124,13 @@
                             ダイニングバー、HerLock。<br><br>
                             赤と緑のアクセントが彩る、<br>
                             落ち着いた大人の空間。<br><br>
-                            イタリアンやフレンチの技法を用いた創作洋食。<br>
-                            バーテンダーが丁寧に仕上げる多彩なカクテル。<br><br>
-                            大切な方とのディナーや、<br>
-                            ふらっと立ち寄る気軽な一杯。<br>
-                            特別な日のパーティーまで。<br><br>
-                            上質でありながらも肩肘張らない、<br>
-                            心地よい時間をご提供いたします。
+                            イタリアンやフレンチの技法を用いた創作洋食と、<br>
+                            バーテンダーが仕立てる一杯。<br><br>
+                            記念日、女子会、推し活、貸切パーティーまで。<br>
+                            大切な時間をゆっくり楽しめる個室をご用意しています。
                         </p>
-                        <div style="margin-top: 2rem;">
-                            <a href="party.html" class="btn btn-line" style="padding: 1rem 3rem;">個室・貸切のご案内はこちら</a>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Anniversary Banner -->
-        <section class="section anniversary-banner fade-in-up" style="background-color: #111111; color: #ffffff; padding: 80px 0;">
-            <div class="container text-center">
-                <h2 style="font-family: var(--font-en); font-size: 2.2rem; margin-bottom: 1rem; color: #d4af37; letter-spacing: 0.1em;">Anniversary</h2>
-                <p style="margin-bottom: 2.5rem; font-size: 1.05rem; line-height: 1.8;">
-                    大切なお祝いや推し活に。<br class="sp-br">
-                    世界に一つだけの特製チョコアートプレート。
-                </p>
-                <div style="max-width: 700px; margin: 0 auto 2.5rem; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                    <img src="images/choco_large.jpg" alt="チョコアートプレート" style="width: 100%; height: 350px; object-fit: cover; object-position: center 20%;">
-                </div>
-                <a href="anniversary.html" class="btn-line" style="border-color: #d4af37; color: #d4af37; padding: 1rem 4rem;">詳細・ご予約条件を見る</a>
             </div>
         </section>
 
@@ -111,21 +140,41 @@
                 <h2 class="section-title">NEWS</h2>
                 <ul class="news-list">
                     <li>
-                        <span class="news-date">2026.04.15</span>
+                        <span class="news-date">2026.06</span>
                         <details class="news-accordion">
-                            <summary class="news-title">平日の貸切パーティー・懇親会も承ります <span class="toggle-icon">+</span></summary>
+                            <summary>
+                                <span>記念日向けチョコアートプレートのご予約受付中</span>
+                                <span class="toggle-icon">+</span>
+                            </summary>
                             <div class="news-content">
-                                ご利用人数：20〜50名様。<br class="sp-br">最大収容人数を超える場合のご相談も随時承っております。
+                                <p>お誕生日や記念日向けに、イラストやメッセージ入りの特製チョコアートプレートをご用意しています。詳しい料金やご予約条件は専用ページをご確認ください。</p>
+                                <p><a href="anniversary.html" class="text-link">チョコアートプレートを見る</a></p>
                             </div>
                         </details>
                     </li>
                     <li>
-                        <span class="news-date">2026.03.20</span>
+                        <span class="news-date">2026.06</span>
                         <details class="news-accordion">
-                            <summary class="news-title">個室（最大8名様）・半個室のご案内 <span class="toggle-icon">+</span></summary>
+                            <summary>
+                                <span>女子会・貸切・推し活向けプランを掲載しました</span>
+                                <span class="toggle-icon">+</span>
+                            </summary>
                             <div class="news-content">
-                                プライベートな空間でお食事をお楽しみいただける完全個室と、適度なプライベート感を保つ半個室をご用意しております。
-                                <small style="display: block; color: #999; margin-top: 0.5rem;">※完全個室は約8名様までご利用可能です。</small>
+                                <p>完全個室や半個室、貸切利用など、シーンに合わせたプランをご案内しています。女子会、歓送迎会、結婚式二次会、推し活にも対応可能です。</p>
+                                <p><a href="party.html" class="text-link">個室・貸切プランを見る</a></p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <span class="news-date">2026.06</span>
+                        <details class="news-accordion">
+                            <summary>
+                                <span>コース・アラカルトメニューを更新しました</span>
+                                <span class="toggle-icon">+</span>
+                            </summary>
+                            <div class="news-content">
+                                <p>創作洋食のコース、単品飲み放題、アラカルトメニューの写真を掲載しています。ご予算に合わせたプランの相談も承ります。</p>
+                                <p><a href="menu.html" class="text-link">メニューを見る</a></p>
                             </div>
                         </details>
                     </li>
@@ -195,13 +244,13 @@
             <div class="container fade-in-up text-center">
                 <h2 class="section-title">RESERVATION</h2>
                 <div class="reservation-buttons">
-                    <a href="https://www.hotpepper.jp/strJ001041666/" target="_blank" class="btn btn-line">HOT PEPPER</a>
-                    <a href="https://tabelog.com/miyazaki/A4501/A450101/45006787/" target="_blank" class="btn btn-line">TABELOG</a>
+                    <a href="https://www.hotpepper.jp/strJ001041666/" target="_blank" rel="noopener" class="btn btn-line">HOT PEPPER</a>
+                    <a href="https://tabelog.com/miyazaki/A4501/A450101/45006787/" target="_blank" rel="noopener" class="btn btn-line">TABELOG</a>
                 </div>
                 <div class="reservation-info">
                     <p>本日の営業状況はInstagramの<br class="sp-br">ストーリーにて配信しております。</p>
                     <p class="reservation-notice">※各種お問い合わせはDMでも承りますが、<br class="sp-br">ご予約は専用サイトをご利用ください。</p>
-                    <a href="https://www.instagram.com/herlock_diningbar/" target="_blank" class="instagram-link">
+                    <a href="https://www.instagram.com/herlock_diningbar/" target="_blank" rel="noopener" class="instagram-link">
                         <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
                         最新の営業状況・お問い合わせはこちら
                     </a>
@@ -216,7 +265,7 @@
                 <div class="access-info">
                     <p class="shop-name">Dining bar HerLock</p>
                     <p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Dining+bar+HerLock+宮崎" target="_blank" style="text-decoration: underline; color: inherit;">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Dining+bar+HerLock+宮崎" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">
                             〒880-0002 宮崎県宮崎市中央通7-7<br class="sp-br"> アルカディアビル1F
                         </a>
                     </p>
