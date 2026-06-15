@@ -21,12 +21,39 @@ body {
     line-height: 2;
     letter-spacing: 0.05em;
     font-weight: 300;
+    line-break: strict;
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
 h1, h2, h3, h4, .nav-list a, .btn {
     font-family: var(--font-en);
     font-weight: 400;
     letter-spacing: 0.1em;
+}
+
+p, li {
+    text-wrap: pretty;
+}
+
+h1, h2, h3, h4,
+.section-title,
+.nav-list a,
+.news-date,
+.news-accordion summary span,
+.text-link,
+.btn,
+.btn-line,
+.shop-name,
+.rb-sub,
+.rb-main {
+    word-break: keep-all;
+    overflow-wrap: normal;
+}
+
+.phrase {
+    display: inline-block;
+    white-space: nowrap;
 }
 
 a {
@@ -146,6 +173,7 @@ img {
     text-align: center;
     margin-bottom: 3rem;
     position: relative;
+    text-wrap: balance;
 }
 
 .section-title::after {
@@ -213,6 +241,7 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
     transition: opacity 0.3s ease;
 }
 
@@ -458,6 +487,8 @@ img {
     padding: 1rem 3rem;
     border: 1px solid var(--color-text);
     font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: center;
     transition: all 0.3s ease;
 }
 
@@ -693,6 +724,14 @@ img {
         font-size: 1.2rem;
     }
 
+    .container {
+        padding: 0 6%;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
     .news-list li { flex-direction: column; gap: 0.5rem; }
     .about-wrapper { flex-direction: column; gap: 2rem; }
     .about-content { text-align: center; }
@@ -721,4 +760,8 @@ img {
     .reservation-buttons { flex-direction: column; gap: 1rem; }
     .hero-image img { height: 50vh; }
     .hero-copy p { font-size: 1.2rem; }
+    .btn-line {
+        width: min(100%, 320px);
+        padding: 0.95rem 1.2rem;
+    }
 }
