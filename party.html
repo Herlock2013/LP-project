@@ -4,249 +4,208 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>個室・貸切パーティー | Dining bar HerLock</title>
-    <meta name="description" content="宮崎市中央通の個室ダイニングバー。女子会、合コン、大人数での貸切パーティーに最適なプライベート空間をご用意しています。">
-    
+    <meta name="description" content="宮崎市中央通の個室ダイニングバー。女子会、宴会、推し活、結婚式二次会、貸切パーティーに対応したプライベート空間をご用意しています。">
+
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://diningbar-herlock.com/party.html">
     <meta property="og:title" content="個室・貸切パーティー | Dining bar HerLock">
-    <meta property="og:description" content="宮崎市中央通の個室ダイニング。大人数での貸切パーティーにも対応可能です。">
-    <meta property="og:image" content="https://diningbar-herlock.com/images/hero_staff.jpg">
+    <meta property="og:description" content="女子会、宴会、推し活、結婚式二次会、貸切利用まで。HerLockの個室・貸切プランをご案内します。">
+    <meta property="og:image" content="https://diningbar-herlock.com/images/party_balloon.jpg">
     <meta property="og:site_name" content="Dining bar HerLock">
     <meta name="twitter:card" content="summary_large_image">
-    
+
     <link rel="icon" href="images/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Serif+JP:wght@200;300;400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20260617-1">
+    <link rel="stylesheet" href="style.css?v=20260617-2">
 </head>
 <body>
     <header class="header" id="header">
         <div class="header-inner">
             <h1 class="logo"><a href="index.html" style="display: block; width: 100%; height: 100%;"><img src="images/header_logo.png?v=20260615-2" alt="Dining Bar HerLock"></a></h1>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <nav class="nav" id="nav">
                 <ul class="nav-list">
-                    <li><a href="index.html">TOPに戻る</a></li>
+                    <li><a href="index.html">TOP</a></li>
+                    <li><a href="#space">SPACE</a></li>
+                    <li><a href="#plans">PLAN</a></li>
+                    <li><a href="#afterparty">WEDDING</a></li>
+                    <li><a href="wedding.html">PHOTO WEDDING</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <main>
-        <section class="hero fade-in" style="padding-top: 140px; margin-bottom: 40px; height: auto;">
-            <div class="container text-center">
-                <h2 class="section-title" style="margin-bottom: 1rem;">Private Room & Party</h2>
-                <p style="color: var(--color-text-light); font-size: 1.1rem;">周りを気にせず楽しめる、プライベート空間。</p>
+        <section class="party-hero fade-in">
+            <div class="party-hero__image">
+                <img src="images/party_balloon.jpg" alt="HerLockの個室パーティー装飾" fetchpriority="high">
+            </div>
+            <div class="container party-hero__copy fade-in-up">
+                <p class="party-kicker">Private Room & Party</p>
+                <h2>
+                    <span class="phrase">個室でゆっくり。</span><br>
+                    <span class="phrase">貸切で華やかに。</span>
+                </h2>
+                <p>
+                    <span class="phrase">女子会、宴会、推し活、</span><br class="sp-br">
+                    <span class="phrase">結婚式二次会まで。</span><br>
+                    <span class="phrase">人数やシーンに合わせて、</span><br class="sp-br">
+                    <span class="phrase">使いやすい空間をご案内します。</span>
+                </p>
             </div>
         </section>
 
         <section class="section" style="padding-top: 0;">
             <div class="container fade-in-up">
-                <div class="gallery-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 4rem;">
-                    <img src="images/party_interior.jpg" alt="店内の雰囲気" style="width: 100%; height: 280px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                    <img src="images/party_balloon.jpg" alt="バルーン装飾パーティー" style="width: 100%; height: 280px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                    <img src="images/party_tablesetting.jpg" alt="テーブルセッティング" style="width: 100%; height: 280px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <div class="party-lead">
+                    <p>
+                        <span class="phrase">完全個室、半個室、フロア貸切まで。</span><br>
+                        <span class="phrase">お食事中心の会にも、</span><span class="phrase">装飾を入れた特別な会にも対応できます。</span>
+                    </p>
                 </div>
 
-                <div class="anniversary-details" style="max-width: 600px; margin: 0 auto; text-align: left; line-height: 2;">
-                    <!-- 女子会プラン -->
-                    <h3 style="font-family: var(--font-ja); font-size: 1.3rem; margin-bottom: 1.5rem; text-align: center; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem;">🥂 【女性限定】女子会コース</h3>
-                    <p style="margin-bottom: 1.5rem; text-align: center; font-size: 1.05rem;">
-                        <strong>2時間飲み放題付き・全8品<br>
-                        お一人様 <span style="color: #C0392B; font-size: 1.4rem; font-weight: bold;">3,980円</span>（税込）</strong>
-                    </p>
-                    <p style="margin-bottom: 1.5rem; text-align: center; font-size: 0.95rem; color: var(--color-text-light);">
-                        おしゃれな個室・半個室で、<br class="sp-br">お料理と豊富なお酒をゆっくり楽しめる人気プランです。
-                    </p>
-                    <div style="background: rgba(0,0,0,0.03); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                        <p style="font-size: 0.95rem; text-align: center; margin-bottom: 1rem; font-weight: bold;">〜 コース内容（一例） 〜</p>
-                        <ul style="list-style: none; padding-left: 0; text-align: center; font-size: 0.95rem; line-height: 1.8;">
-                            <li style="margin-bottom: 0.4rem;">✦ スパニッシュオムレツ</li>
-                            <li style="margin-bottom: 0.4rem;">✦ 鮮魚のカルパッチョ</li>
-                            <li style="margin-bottom: 0.4rem;">✦ 鶏トロ竜田揚げ 〜ケイジャンスパイス〜</li>
-                            <li style="margin-bottom: 0.4rem;">✦ 蓮根アラビアータ</li>
-                            <li style="margin-bottom: 0.4rem;">✦ 生ハムサラダ</li>
-                            <li style="margin-bottom: 0.4rem;">✦ アマトリチャーナ</li>
-                            <li style="margin-bottom: 0.4rem;">✦ 国産豚ロースのグリル 〜粒マスタードソース〜</li>
-                            <li style="margin-bottom: 0.4rem;">✦ 本日のデザート</li>
-                        </ul>
-                    </div>
-                    <div style="background: rgba(192, 57, 43, 0.05); border: 1px solid rgba(192, 57, 43, 0.2); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--color-text-light);">
-                        <ul style="list-style: none; padding-left: 0;">
-                            <li style="margin-bottom: 0.5rem;"><strong>【ご利用条件】</strong></li>
-                            <li style="margin-bottom: 0.3rem;">・2名様よりご予約可能（前日23:00まで）</li>
-                            <li style="margin-bottom: 0.3rem;">・女性グループ限定のプランとなります</li>
-                            <li style="margin-bottom: 0.3rem;">・仕入れ状況により内容が変更となる場合がございます</li>
-                            <li>・お祝い用のチョコレートアートプレート追加は別途料金にて承ります</li>
-                        </ul>
-                    </div>
-                    <div class="text-center" style="margin-bottom: 3rem;">
-                        <a href="https://www.hotpepper.jp/strJ001041666/course_cnod04/" target="_blank" rel="noopener" class="btn-line btn-girls">女子会コースを予約</a>
-                    </div>
+                <div class="gallery-grid party-gallery">
+                    <img src="images/party_interior.jpg" alt="HerLockの店内空間">
+                    <img src="images/party_balloon.jpg" alt="バルーン装飾のパーティー">
+                    <img src="images/party_tablesetting.jpg" alt="パーティーのテーブルセッティング">
+                </div>
 
-                    <!-- 空間紹介 -->
-                    <h3 style="font-family: var(--font-ja); font-size: 1.3rem; margin-bottom: 1.5rem; text-align: center; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem;">🚪 シーンに合わせた空間作り</h3>
-                    <p style="margin-bottom: 2rem; text-align: center;">
-                        女子会、合コン、歓送迎会、<br class="sp-br">
-                        推し活パーティーまで。<br class="sp-br">
-                        シーンに合わせて使える<br class="sp-br">
-                        個室・貸切プランをご用意しています。
-                    </p>
-                    
-                    <ul style="list-style: none; padding-left: 0; color: var(--color-text-light); font-size: 0.95rem; margin-bottom: 3rem;">
-                        <li style="margin-bottom: 1.2rem;">
-                            <strong>◆ 完全個室（約8名様まで）：</strong><br>
-                            扉の閉まる完全プライベート空間。女子会や大切なお話をする接待などにも最適です。
-                        </li>
-                        <li style="margin-bottom: 1.2rem;">
-                            <strong>◆ 半個室・ソファ席：</strong><br>
-                            カーテンで仕切られた、ゆったり座れるソファ席。合コンやグループでの飲みに人気です。
-                        </li>
-                        <li style="margin-bottom: 1.2rem;">
-                            <strong>◆ フロア貸切（20名様〜）：</strong><br>
-                            プロジェクターやマイクも完備。結婚式の二次会や大規模なパーティーにもご対応可能です。（詳細な人数・ご予算はご相談ください）
-                        </li>
-                        <li style="margin-bottom: 1.2rem;">
-                            <strong>◆ 推し活・推し会にも対応：</strong><br>
-                            バルーン装飾やテーブルコーディネートなど、推しの誕生日会や推し活パーティーのお手伝いもいたします。お気軽にご相談ください。
-                        </li>
-                    </ul>
+                <section class="party-section" id="space">
+                    <h3 class="party-section-title">シーンに合わせた空間</h3>
+                    <div class="party-card-grid">
+                        <section class="party-card">
+                            <p class="party-card__label">約8名様まで</p>
+                            <h4>完全個室</h4>
+                            <p>扉の閉まるプライベート空間。女子会や大切なお話をするお食事にも使いやすいお席です。</p>
+                        </section>
+                        <section class="party-card">
+                            <p class="party-card__label">少人数グループに</p>
+                            <h4>半個室・ソファ席</h4>
+                            <p>カーテンで仕切られた、ゆったり過ごせるソファ席。合コンやグループ飲みに人気です。</p>
+                        </section>
+                        <section class="party-card">
+                            <p class="party-card__label">20名様〜</p>
+                            <h4>フロア貸切</h4>
+                            <p>プロジェクターやマイクも完備。歓送迎会、宴会、結婚式二次会にも対応できます。</p>
+                        </section>
+                        <section class="party-card">
+                            <p class="party-card__label">装飾相談可</p>
+                            <h4>推し活・お祝い</h4>
+                            <p>バルーン装飾やテーブルコーディネートなど、推しの誕生日会や記念日の演出もご相談ください。</p>
+                        </section>
+                    </div>
+                </section>
 
-                    <!-- パーティー・宴会コース -->
-                    <h3 style="font-family: var(--font-ja); font-size: 1.3rem; margin: 3rem 0 1.5rem; text-align: center; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem;">🍖 宴会・パーティー向けコース</h3>
-                    
-                    <h4 style="font-family: var(--font-ja); font-size: 1.15rem; margin-bottom: 1rem; color: #d4af37; text-align: center;">【贅沢なご宴会に！】宴会限定コース</h4>
-                    <p style="margin-bottom: 1.5rem; text-align: center; font-size: 1.05rem;">
-                        <strong>2時間飲み放題付き・全8品<br>
-                        通常 6,500円 ⇒ 特別価格 <span style="color: #C0392B; font-size: 1.4rem; font-weight: bold;">5,500円</span>（税込）</strong>
-                    </p>
-                    <p style="margin-bottom: 1.5rem; text-align: center; font-size: 0.95rem; color: var(--color-text-light);">
-                        ご宴会や特別な集まりに。<br class="sp-br">シェフ自慢の洋食をコース仕立てで楽しめます。
-                    </p>
-                    <div style="background: rgba(0,0,0,0.03); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                        <p style="font-size: 0.95rem; text-align: center; margin-bottom: 1rem; font-weight: bold;">〜 コース構成 〜</p>
-                        <ul style="list-style: none; padding-left: 0; text-align: center; font-size: 0.95rem; line-height: 1.8;">
-                            <li style="margin-bottom: 0.4rem;">✦ 前菜4種盛り合わせ</li>
-                            <li style="margin-bottom: 0.4rem;">✦ 本日の特製サラダ</li>
-                            <li style="margin-bottom: 0.4rem;">✦ シェフ日替わりのおすすめパスタ</li>
-                            <li style="margin-bottom: 0.4rem;">✦ メインのお肉料理</li>
-                            <li style="margin-bottom: 0.4rem;">✦ 本日のデザート</li>
-                            <li style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;">※仕入れや季節により、詳しいメニュー内容は変更となる場合がございます。</li>
-                        </ul>
-                    </div>
-                    <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--color-border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--color-text-light);">
-                        <ul style="list-style: none; padding-left: 0;">
-                            <li style="margin-bottom: 0.5rem;"><strong>【ご利用条件】</strong></li>
-                            <li style="margin-bottom: 0.3rem;">・4名様よりご予約可能（前日23:00まで）</li>
-                            <li>・他クーポン、割引との併用はできません</li>
-                        </ul>
-                    </div>
-                    <div class="text-center" style="margin-bottom: 3rem;">
-                        <a href="https://www.hotpepper.jp/strJ001041666/course_cnod26/" target="_blank" rel="noopener" class="btn-line btn-gold">宴会コースを予約</a>
-                    </div>
-
-                    <!-- その他コース案内 -->
-                    <div style="border-top: 1px dashed var(--color-border); padding-top: 2rem; margin-bottom: 3rem;">
-                        <h4 style="font-family: var(--font-ja); font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center;">選べるコースプラン</h4>
-                        <p style="margin-bottom: 1.5rem; text-align: center; font-size: 0.95rem;">
-                            全コースに【＋1,500円】で「2時間飲み放題」をお付けできます。（※5,500円ビュッフェプランは飲み放題込み）
-                        </p>
-                        <ul style="list-style: none; padding-left: 0; color: var(--color-text-light); font-size: 0.95rem; max-width: 500px; margin: 0 auto 2rem;">
-                            <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.8rem;">
-                                <strong style="color: var(--color-text); font-size: 1rem;">◆ スタンダードコース（4,000円/税込）</strong><br>
-                                気軽なお食事や宴会に。定番人気の創作洋食プラン。
-                            </li>
-                            <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.8rem;">
-                                <strong style="color: #C0392B; font-size: 1rem;">◆ ビュッフェ付きプラン（5,500円・飲み放題込）</strong><br>
-                                貸切パーティーや大人数のご宴会に最適！大満足のビュッフェとお酒を心ゆくまで。
-                            </li>
-                            <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.8rem;">
-                                <strong style="color: var(--color-text); font-size: 1rem;">◆ プレミアムコース（6,000円/税込）</strong><br>
-                                ワンランク上の特別なディナーに。こだわりの食材を用いたプラン。
-                            </li>
-                            <li style="margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.8rem;">
-                                <strong style="color: #d4af37; font-size: 1rem;">◆ 極上！宮崎牛コース（8,000円/税込）</strong><br>
-                                地元宮崎の極上宮崎牛をメインにした贅沢なご馳走プラン。記念日にもおすすめです。
-                            </li>
-                        </ul>
-                        <p style="font-size: 0.85rem; opacity: 0.8; text-align: center; line-height: 1.8;">
-                            ※上記以外にも、ご予算に合わせて【1,000円単位】でプランのカスタマイズが可能です。<br>
-                            また、記念日やハレの日用に、ご予算に応じたさらにお高めの特別なプランも柔軟にご用意いたします。お気軽にご相談ください。
-                        </p>
-                    </div>
-
-                    <!-- 推し活プラン -->
-                    <h3 style="font-family: var(--font-ja); font-size: 1.3rem; margin: 3rem 0 1.5rem; text-align: center; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem;">🎤 推し活プラン</h3>
-                    <p style="margin-bottom: 1.5rem; text-align: center; font-size: 0.95rem;">
-                        推しの誕生日会や上映会、布教会に。<br class="sp-br">
-                        モニター付きの完全個室で、<br class="sp-br">
-                        周りを気にせず推し活を満喫できます。
-                    </p>
-                    <div style="background: rgba(0,0,0,0.03); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                        <p style="text-align: center; margin-bottom: 1rem;">
-                            <strong style="color: #d4af37; font-size: 1.15rem;">室内利用料：2時間 2,000円</strong>
-                        </p>
-                        <ul style="list-style: none; padding-left: 0; font-size: 0.9rem; text-align: center;">
-                            <li style="margin-bottom: 0.5rem;">◆ モニター完備の完全個室</li>
-                            <li style="margin-bottom: 0.5rem;">◆ バルーン装飾などのお手伝いも可能</li>
-                            <li style="margin-bottom: 0.5rem;">◆ お料理・お飲み物は別途ご注文ください</li>
-                        </ul>
-                    </div>
-                    <p style="font-size: 0.85rem; opacity: 0.7; text-align: center; margin-bottom: 3rem;">
-                        ※装飾のお持ち込みも歓迎です。お気軽にご相談ください。
-                    </p>
-
-                    <!-- 結婚式二次会プラン -->
-                    <h3 style="font-family: var(--font-ja); font-size: 1.3rem; margin: 3rem 0 1.5rem; text-align: center; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem;">💒 結婚式二次会プラン</h3>
-                    <p style="margin-bottom: 1.5rem; text-align: center; font-size: 0.95rem;">
-                        おふたりの大切な一日を、HerLockがサポート。<br class="sp-br">
-                        笑顔あふれる二次会を一緒に作ります。
-                    </p>
-                    <p style="margin-bottom: 1.5rem; text-align: center; font-size: 1.05rem;">
-                        <strong>2時間飲み放題付き・ビュッフェ料理<br>
-                        お一人様 <span style="color: #C0392B; font-size: 1.3rem; font-weight: bold;">3,980円〜</span>（税込）</strong><br>
-                        <span style="font-size: 0.9rem; display: block; margin-top: 0.3rem;">
-                            ・ビールなし飲み放題込み： 3,980円（税込）<br>
-                            ・ビールあり飲み放題込み： 4,500円（税込）
-                        </span>
-                        <span style="font-size: 0.85rem; opacity: 0.8; display: block; margin-top: 0.5rem;">※ご予算やご希望のビュッフェ内容に合わせて調整可能です。</span>
-                    </p>
-                    
-                    <div style="background: rgba(0,0,0,0.03); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                        <p style="text-align: center; margin-bottom: 1rem; font-weight: bold; font-size: 0.95rem;">🍴 プラン内容の一例</p>
-                        <ul style="list-style: none; padding-left: 0; font-size: 0.9rem; text-align: center; line-height: 1.8; margin-bottom: 1.5rem;">
-                            <li>◆ 2時間以上の飲み放題（カクテル・ワイン等も豊富）</li>
-                            <li>◆ ビュッフェ形式の軽食・お料理</li>
-                            <li>◆ 特製チョコレートアート付きビュッフェタワー</li>
-                        </ul>
-                        <!-- ビュッフェ参考画像 -->
-                        <div style="display: flex; gap: 1rem; padding: 0 0.5rem; margin-bottom: 0.5rem;">
-                            <div style="flex: 1; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-                                <img src="images/party_buffet1.jpg" alt="ビュッフェ デザートプレート" style="width: 100%; height: 160px; object-fit: cover;">
+                <section class="party-section" id="plans">
+                    <h3 class="party-section-title">おすすめプラン</h3>
+                    <div class="party-plan-grid">
+                        <section class="party-plan">
+                            <p class="party-plan__label">女性限定</p>
+                            <h4>女子会コース</h4>
+                            <p class="party-plan__price">3,980円<span>（税込）</span></p>
+                            <p class="party-plan__summary">2時間飲み放題付き・全8品。個室や半個室で、お料理とお酒をゆっくり楽しめます。</p>
+                            <div class="party-plan__block">
+                                <h5>コース内容の一例</h5>
+                                <ul>
+                                    <li>スパニッシュオムレツ</li>
+                                    <li>鮮魚のカルパッチョ</li>
+                                    <li>鶏トロ竜田揚げ</li>
+                                    <li>蓮根アラビアータ</li>
+                                    <li>生ハムサラダ</li>
+                                    <li>パスタ、メイン、デザート</li>
+                                </ul>
                             </div>
-                            <div style="flex: 1; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-                                <img src="images/party_buffet2.jpg" alt="ビュッフェ 料理盛り合わせ" style="width: 100%; height: 160px; object-fit: cover;">
+                            <div class="party-plan__note">
+                                <p>2名様よりご予約可能。女性グループ限定のプランです。</p>
                             </div>
+                            <a href="https://www.hotpepper.jp/strJ001041666/course_cnod04/" target="_blank" rel="noopener" class="btn-line btn-girls">女子会コースを予約</a>
+                        </section>
+
+                        <section class="party-plan party-plan--gold">
+                            <p class="party-plan__label">宴会・パーティー</p>
+                            <h4>宴会限定コース</h4>
+                            <p class="party-plan__price">5,500円<span>（税込）</span></p>
+                            <p class="party-plan__summary">2時間飲み放題付き・全8品。ご宴会や特別な集まりにおすすめのコースです。</p>
+                            <div class="party-plan__block">
+                                <h5>コース構成</h5>
+                                <ul>
+                                    <li>前菜4種盛り合わせ</li>
+                                    <li>本日の特製サラダ</li>
+                                    <li>シェフ日替わりのおすすめパスタ</li>
+                                    <li>メインのお肉料理</li>
+                                    <li>本日のデザート</li>
+                                </ul>
+                            </div>
+                            <div class="party-plan__note">
+                                <p>4名様よりご予約可能。仕入れ状況により内容が変更となる場合があります。</p>
+                            </div>
+                            <a href="https://www.hotpepper.jp/strJ001041666/course_cnod26/" target="_blank" rel="noopener" class="btn-line btn-gold">宴会コースを予約</a>
+                        </section>
+                    </div>
+
+                    <div class="party-course-list">
+                        <h4>選べるコースプラン</h4>
+                        <ul>
+                            <li><strong>スタンダードコース：</strong>4,000円（税込）</li>
+                            <li><strong>ビュッフェ付きプラン：</strong>5,500円（税込）飲み放題込</li>
+                            <li><strong>プレミアムコース：</strong>6,000円（税込）</li>
+                            <li><strong>宮崎牛コース：</strong>8,000円（税込）</li>
+                        </ul>
+                        <p>全コースに＋1,500円で2時間飲み放題をお付けできます。ご予算に合わせたカスタマイズもご相談ください。</p>
+                    </div>
+                </section>
+
+                <section class="party-section">
+                    <h3 class="party-section-title">推し活プラン</h3>
+                    <div class="party-feature">
+                        <div>
+                            <p class="party-feature__label">室内利用料</p>
+                            <p class="party-feature__price">2時間 2,000円</p>
+                        </div>
+                        <div>
+                            <p>推しの誕生日会や上映会、布教会に。モニター付きの完全個室で、周りを気にせず推し活を楽しめます。</p>
+                            <ul>
+                                <li>モニター完備の完全個室</li>
+                                <li>バルーン装飾などのお手伝いも可能</li>
+                                <li>お料理・お飲み物は別途ご注文ください</li>
+                            </ul>
                         </div>
                     </div>
+                </section>
 
-                    <div style="background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                        <p style="text-align: center; margin-bottom: 1rem; font-weight: bold; font-size: 0.95rem; color: #d4af37;">🎁 豪華無料特典</p>
-                        <ul style="list-style: none; padding-left: 0; font-size: 0.9rem; text-align: center; line-height: 1.8;">
-                            <li>✦ 新郎新婦様のご利用料金無料</li>
-                            <li>✦ プロジェクター＆スクリーン、音響設備・マイク使用料無料</li>
-                            <li>✦ 迫力のシャンパンタワーサービス</li>
-                            <li>✦ ビンゴゲーム・チェキなどのアミューズメント貸出</li>
-                            <li>✦ ウェルカムボードの作成サポート</li>
-                            <li>✦ 集合写真撮影＆データプレゼント</li>
-                            <li>✦ フレアバーテンダー出勤時は、特別な「フレアショー」プレゼント 🍸</li>
-                        </ul>
-                    </div>
-
-                    <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid var(--color-border); border-radius: 8px; padding: 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; text-align: center; line-height: 1.8;">
-                        <strong style="color: var(--color-text);">🔍 会場下見も大歓迎です！</strong><br>
-                        様々なご相談に応じますので、まずはお気軽にお問い合わせ、または下見ご予約をください。
-                        <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;">※フロア貸切は30名様から対応可能です。</p>
+                <section class="party-section" id="afterparty">
+                    <h3 class="party-section-title">結婚式二次会プラン</h3>
+                    <div class="party-afterparty">
+                        <div class="party-afterparty__content">
+                            <p class="party-plan__label">貸切・二次会</p>
+                            <h4>2時間飲み放題付き・ビュッフェ料理</h4>
+                            <p class="party-plan__price">3,980円〜<span>（税込）</span></p>
+                            <ul>
+                                <li>ビールなし飲み放題込み：3,980円（税込）</li>
+                                <li>ビールあり飲み放題込み：4,500円（税込）</li>
+                                <li>ご予算やビュッフェ内容に合わせて調整可能</li>
+                            </ul>
+                            <div class="party-benefits">
+                                <h5>無料特典</h5>
+                                <ul>
+                                    <li>新郎新婦様のご利用料金無料</li>
+                                    <li>プロジェクター、音響設備、マイク使用料無料</li>
+                                    <li>シャンパンタワーサービス</li>
+                                    <li>ビンゴゲーム、チェキなどの貸出</li>
+                                    <li>集合写真撮影＆データプレゼント</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="gallery-grid party-buffet-gallery">
+                            <img src="images/party_buffet1.jpg" alt="二次会ビュッフェのデザート">
+                            <img src="images/party_buffet2.jpg" alt="二次会ビュッフェの料理">
+                        </div>
                     </div>
 
                     <div class="wedding-link-box">
@@ -257,10 +216,11 @@
                         <a href="wedding.html" class="text-link">少人数ウェディングプランを見る</a>
                     </div>
 
-                    <div class="text-center" style="margin-bottom: 3rem;">
+                    <div class="text-center party-actions">
                         <a href="https://www.hotpepper.jp/strJ001041666/course_cnod05/" target="_blank" rel="noopener" class="btn-line btn-gold">二次会プランを予約</a>
+                        <a href="tel:0985355414" class="btn-line">電話で相談する</a>
                     </div>
-                </div>
+                </section>
             </div>
         </section>
     </main>
@@ -270,6 +230,26 @@
             <p class="copyright">&copy; HerLock. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <nav class="reserve-bar" aria-label="ご予約">
+        <a class="rb-btn rb-hp" href="https://www.hotpepper.jp/strJ001041666/" target="_blank" rel="noopener">
+            <span class="rb-sub">ネット予約</span>
+            <span class="rb-main">Hot Pepper</span>
+        </a>
+        <a class="rb-btn rb-tb" href="https://tabelog.com/miyazaki/A4501/A450101/45006787/" target="_blank" rel="noopener">
+            <span class="rb-sub">ネット予約</span>
+            <span class="rb-main">食べログ</span>
+        </a>
+        <a class="rb-btn rb-tel" href="tel:0985355414">
+            <span class="rb-sub">TEL</span>
+            <span class="rb-main">0985-35-5414</span>
+        </a>
+        <a class="rb-btn rb-map" href="https://www.google.com/maps/search/?api=1&query=Dining+bar+HerLock+宮崎" target="_blank" rel="noopener">
+            <span class="rb-sub">MAP</span>
+            <span class="rb-main">行き方</span>
+        </a>
+    </nav>
+
     <script src="main.js?v=20260613-2"></script>
 </body>
 </html>
