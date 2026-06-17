@@ -345,6 +345,241 @@ img {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
+/* Wedding Page */
+.wedding-hero {
+    position: relative;
+    padding-top: 86px;
+    margin-bottom: 80px;
+    overflow: hidden;
+}
+
+.wedding-hero__image {
+    position: relative;
+    height: min(72vh, 720px);
+    min-height: 480px;
+}
+
+.wedding-hero__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.18) 58%, rgba(0, 0, 0, 0.08));
+}
+
+.wedding-hero__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+}
+
+.wedding-hero__copy {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(2.5rem, 8vw, 5.5rem);
+    transform: translateX(-50%);
+    width: 100%;
+    color: #ffffff;
+    text-align: left;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+
+.wedding-hero__copy.fade-in-up {
+    transform: translate(-50%, 20px);
+}
+
+.wedding-hero__copy.fade-in-up.visible {
+    transform: translate(-50%, 0);
+}
+
+.wedding-kicker {
+    font-family: var(--font-en);
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    margin-bottom: 0.75rem;
+}
+
+.wedding-hero__copy h2 {
+    font-family: var(--font-ja);
+    font-size: clamp(1.9rem, 4vw, 3.1rem);
+    line-height: 1.45;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+}
+
+.wedding-hero__copy p {
+    max-width: 720px;
+    font-size: 1.05rem;
+    line-height: 2;
+}
+
+.wedding-lead {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    text-align: center;
+    color: var(--color-text-light);
+    font-size: 1rem;
+}
+
+.wedding-plan-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+    margin-bottom: 3rem;
+}
+
+.wedding-plan {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.015);
+}
+
+.wedding-plan--accent {
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.wedding-plan__label {
+    display: inline-block;
+    margin-bottom: 0.8rem;
+    padding: 0.15rem 0.65rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    color: var(--color-text-light);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+.wedding-plan h3 {
+    font-family: var(--font-ja);
+    font-size: 1.22rem;
+    line-height: 1.7;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.75rem;
+}
+
+.wedding-plan__sub,
+.wedding-plan__note {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+}
+
+.wedding-plan__price {
+    margin: 0.8rem 0 1.4rem;
+    color: #C0392B;
+    font-size: 1.8rem;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.wedding-plan__price span {
+    font-size: 0.95rem;
+}
+
+.wedding-plan__block {
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px dashed var(--color-border);
+}
+
+.wedding-plan__block h4,
+.wedding-common h4 {
+    font-family: var(--font-ja);
+    font-size: 0.98rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.7rem;
+}
+
+.wedding-plan__block ul {
+    list-style: none;
+    padding-left: 0;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    line-height: 1.9;
+}
+
+.wedding-plan__block li {
+    position: relative;
+    padding-left: 1rem;
+}
+
+.wedding-plan__block li::before {
+    content: '・';
+    position: absolute;
+    left: 0;
+}
+
+.wedding-common {
+    margin: 0 auto 4rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.wedding-common > h3 {
+    font-family: var(--font-ja);
+    font-size: 1.25rem;
+    text-align: center;
+    margin-bottom: 1.6rem;
+}
+
+.wedding-common__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.wedding-common__grid p {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    line-height: 1.9;
+}
+
+.wedding-gallery-section {
+    margin-bottom: 3rem;
+}
+
+.wedding-gallery img {
+    height: 290px;
+}
+
+.wedding-note-box {
+    max-width: 720px;
+    margin: 0 auto 2rem;
+    padding: 1.2rem 1.4rem;
+    border: 1px solid rgba(192, 57, 43, 0.18);
+    border-radius: 8px;
+    background: rgba(192, 57, 43, 0.04);
+    color: var(--color-text-light);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.wedding-link-box {
+    margin: 0 0 2rem;
+    padding: 1.4rem;
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    border-radius: 8px;
+    background: rgba(212, 175, 55, 0.05);
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+
+.wedding-link-box strong {
+    color: var(--color-text);
+    font-weight: 400;
+}
+
+.wedding-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
 .lightbox-open {
     overflow: hidden;
 }
@@ -738,6 +973,53 @@ img {
     .about-content { text-align: center; }
     .menu-item, .menu-item:nth-child(even) { flex-direction: column; }
     .gallery-grid { grid-template-columns: 1fr; }
+    .wedding-hero {
+        padding-top: 76px;
+        margin-bottom: 56px;
+    }
+    .wedding-hero__image {
+        height: 64vh;
+        min-height: 520px;
+    }
+    .wedding-hero__image img {
+        object-position: 34% center;
+    }
+    .wedding-hero__image::after {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.78));
+    }
+    .wedding-hero__copy {
+        bottom: 2rem;
+        text-align: center;
+        color: var(--color-text);
+        text-shadow: 0 1px 14px rgba(255, 255, 255, 0.85);
+    }
+    .wedding-hero__copy h2 {
+        font-size: 1.75rem;
+        line-height: 1.55;
+    }
+    .wedding-hero__copy p {
+        font-size: 0.95rem;
+        line-height: 1.9;
+    }
+    .wedding-lead {
+        text-align: left;
+    }
+    .wedding-plan-grid,
+    .wedding-common__grid {
+        grid-template-columns: 1fr;
+    }
+    .wedding-plan {
+        padding: 1.5rem;
+    }
+    .wedding-plan h3 {
+        font-size: 1.08rem;
+    }
+    .wedding-plan__price {
+        font-size: 1.55rem;
+    }
+    .wedding-gallery img {
+        height: 260px;
+    }
     .gallery-lightbox { padding: 3.5rem 1rem 6rem; }
     .gallery-lightbox__image { max-height: 70vh; }
     .gallery-lightbox__close {
