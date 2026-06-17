@@ -851,6 +851,257 @@ img {
     flex-wrap: wrap;
 }
 
+/* Flair Page */
+.flair-hero {
+    position: relative;
+    padding-top: 86px;
+    margin-bottom: 80px;
+    overflow: hidden;
+}
+
+.flair-hero__image {
+    position: relative;
+    height: min(70vh, 680px);
+    min-height: 460px;
+    background: #171414;
+}
+
+.flair-hero__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.68), rgba(0, 0, 0, 0.24) 58%, rgba(0, 0, 0, 0.12));
+}
+
+.flair-hero__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+}
+
+.flair-hero__copy {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(2.5rem, 8vw, 5rem);
+    transform: translateX(-50%);
+    width: 100%;
+    color: #ffffff;
+    text-align: left;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
+}
+
+.flair-hero__copy.fade-in-up {
+    transform: translate(-50%, 20px);
+}
+
+.flair-hero__copy.fade-in-up.visible {
+    transform: translate(-50%, 0);
+}
+
+.flair-kicker {
+    font-family: var(--font-en);
+    font-size: 1rem;
+    letter-spacing: 0.16em;
+    margin-bottom: 0.75rem;
+}
+
+.flair-hero__copy h2 {
+    font-family: var(--font-ja);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.45;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+}
+
+.flair-hero__copy p,
+.flair-lead {
+    font-size: 1rem;
+    line-height: 2;
+}
+
+.flair-lead {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    text-align: center;
+    color: var(--color-text-light);
+}
+
+.flair-section {
+    margin-bottom: 4rem;
+}
+
+.flair-section-title {
+    font-family: var(--font-ja);
+    font-size: 1.35rem;
+    text-align: center;
+    margin-bottom: 1.8rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.flair-plan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.flair-plan {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.7rem;
+    background: rgba(0, 0, 0, 0.015);
+}
+
+.flair-plan--accent {
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.flair-plan__label {
+    align-self: flex-start;
+    padding: 0.12rem 0.65rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    color: var(--color-text-light);
+    font-size: 0.78rem;
+    line-height: 1.6;
+}
+
+.flair-plan h4,
+.flair-scene-grid h4 {
+    font-family: var(--font-ja);
+    font-size: 1.08rem;
+    letter-spacing: 0.04em;
+}
+
+.flair-plan__price {
+    color: #C0392B;
+    font-size: 1.55rem;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+.flair-plan__price span {
+    display: block;
+    color: var(--color-text-light);
+    font-size: 0.85rem;
+}
+
+.flair-plan p,
+.flair-plan li,
+.flair-scene-grid p,
+.flair-flow p,
+.flair-note,
+.flair-cta p {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    line-height: 1.9;
+}
+
+.flair-plan ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: auto;
+    border-top: 1px dashed var(--color-border);
+    padding-top: 1rem;
+}
+
+.flair-plan li {
+    position: relative;
+    padding-left: 1rem;
+}
+
+.flair-plan li::before {
+    content: '・';
+    position: absolute;
+    left: 0;
+}
+
+.flair-scene-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.flair-flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    list-style: none;
+    padding-left: 0;
+}
+
+.flair-flow li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.9rem;
+    align-items: start;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.3rem;
+    background: rgba(0, 0, 0, 0.015);
+}
+
+.flair-flow span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    font-family: var(--font-en);
+    line-height: 1;
+}
+
+.flair-note {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.flair-gallery {
+    margin-bottom: 1rem;
+}
+
+.flair-gallery img {
+    height: 290px;
+}
+
+.flair-gallery img:nth-child(2),
+.flair-gallery img:nth-child(6) {
+    object-position: center 28%;
+}
+
+.flair-gallery img:nth-child(4),
+.flair-gallery img:nth-child(5) {
+    object-position: center 44%;
+}
+
+.flair-cta {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border: 1px solid rgba(192, 57, 43, 0.18);
+    border-radius: 8px;
+    background: rgba(192, 57, 43, 0.04);
+    text-align: center;
+}
+
+.flair-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+}
+
 .lightbox-open {
     overflow: hidden;
 }
@@ -1350,6 +1601,52 @@ img {
     }
     .party-buffet-gallery img {
         height: 210px;
+    }
+    .flair-hero {
+        padding-top: 76px;
+        margin-bottom: 56px;
+    }
+    .flair-hero__image {
+        height: 62vh;
+        min-height: 500px;
+    }
+    .flair-hero__image::after {
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.7));
+    }
+    .flair-hero__copy {
+        bottom: 2rem;
+        text-align: center;
+    }
+    .flair-hero__copy h2 {
+        font-size: 1.75rem;
+        line-height: 1.55;
+    }
+    .flair-hero__copy p,
+    .flair-lead {
+        font-size: 0.95rem;
+        line-height: 1.9;
+    }
+    .flair-lead {
+        text-align: left;
+    }
+    .flair-plan-grid,
+    .flair-scene-grid,
+    .flair-flow {
+        grid-template-columns: 1fr;
+    }
+    .flair-plan,
+    .flair-flow li,
+    .flair-cta {
+        padding: 1.4rem;
+    }
+    .flair-section-title {
+        font-size: 1.18rem;
+    }
+    .flair-plan__price {
+        font-size: 1.45rem;
+    }
+    .flair-gallery img {
+        height: 260px;
     }
     .gallery-lightbox { padding: 3.5rem 1rem 6rem; }
     .gallery-lightbox__image { max-height: 70vh; }
