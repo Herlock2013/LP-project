@@ -81,7 +81,7 @@ export function formatDateJa(dateStr: string): string {
 
 // ---------- 定型文 ----------
 export const GROUP_POLICY_TEXT =
-  "※ご来店の1週間前〜2日前の間に5名以上の人数変更がある場合、キャンセル料が発生する可能性があります。人数の変更は都度ご連絡ください。";
+  "※コース料理の場合は、ご来店の1週間前〜2日前の間に5名以上の人数変更がある場合、キャンセル料が発生する可能性があります。人数の変更は都度ご連絡ください。";
 
 export const STORE_NAME = "Dining bar HerLock";
 export const STORE_TEL = "0985-35-5414";
