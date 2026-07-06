@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ご予約 | Dining bar HerLock</title>
+    <meta name="description" content="Dining bar HerLockのオンライン予約ページ。24時間ご予約を受け付けています。">
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Serif+JP:wght@200;300;400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20260617-4">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <style>
+        .reserve-page { max-width: 640px; margin: 0 auto; padding: 8rem 5% 6rem; }
+        .reserve-page h2.section-title { margin-bottom: 3rem; }
+        .step { margin-bottom: 2.5rem; }
+        .step-label { font-family: var(--font-ja); font-size: 0.95rem; letter-spacing: 0.1em; margin-bottom: 0.8rem; display: block; }
+        .step-label .req { color: #C0392B; font-size: 0.8rem; margin-left: 0.4rem; }
+        .form-input, .form-select, .form-textarea {
+            width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--color-border);
+            font-family: var(--font-ja); font-size: 1rem; background: #fff; color: var(--color-text);
+            border-radius: 0;
+        }
+        .form-textarea { min-height: 100px; resize: vertical; }
+        .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
+        .cal-nav { border: 1px solid var(--color-border); background: #fff; padding: 0.3rem 1rem; cursor: pointer; font-family: var(--font-en); }
+        .cal-nav:disabled { opacity: 0.3; cursor: default; }
+        .cal-title { font-family: var(--font-en); letter-spacing: 0.1em; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .cal-grid .dow { text-align: center; font-size: 0.75rem; color: var(--color-text-light); padding: 0.3rem 0; }
+        .cal-day {
+            aspect-ratio: 1; border: 1px solid var(--color-border); background: #fff;
+            font-family: var(--font-en); font-size: 0.9rem; cursor: pointer; position: relative;
+        }
+        .cal-day:disabled { color: #ccc; background: #fafafa; cursor: default; }
+        .cal-day.selected { background: var(--color-text); color: #fff; }
+        .cal-day .mark { display: block; font-size: 0.6rem; }
+        .slot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .slot-btn { padding: 0.7rem 0; border: 1px solid var(--color-border); background: #fff; font-family: var(--font-en); font-size: 0.9rem; cursor: pointer; }
+        .slot-btn:disabled { color: #ccc; background: #fafafa; cursor: default; text-decoration: line-through; }
+        .slot-btn.selected { background: var(--color-text); color: #fff; }
+        .course-option { border: 1px solid var(--color-border); padding: 1rem; margin-bottom: 0.6rem; display: block; cursor: pointer; }
+        .course-option input { margin-right: 0.6rem; }
+        .course-option .price { float: right; font-family: var(--font-en); }
+        .course-note { font-size: 0.8rem; color: var(--color-text-light); margin: 0.2rem 0 0 1.6rem; }
+        .drink-addon { border: 1px dashed var(--color-border); padding: 0.9rem 1rem; margin-top: 0.6rem; display: none; }
+        .notice-box { border: 1px solid #C0392B; color: #8e2a1f; background: #fdf6f5; padding: 1rem 1.2rem; font-size: 0.85rem; line-height: 1.9; margin: 1rem 0; display: none; }
+        .policy-note { font-size: 0.8rem; color: var(--color-text-light); line-height: 1.9; margin-top: 2rem; }
+        .submit-btn { width: 100%; padding: 1.1rem; margin-top: 1.5rem; background: var(--color-text); color: #fff; border: 1px solid var(--color-text); font-family: var(--font-ja); letter-spacing: 0.2em; font-size: 1rem; cursor: pointer; }
+        .submit-btn:disabled { opacity: 0.4; cursor: default; }
+        .msg { padding: 1rem 1.2rem; margin: 1rem 0; font-size: 0.9rem; line-height: 1.9; display: none; }
+        .msg.error { border: 1px solid #C0392B; color: #8e2a1f; background: #fdf6f5; }
+        .msg.success { border: 1px solid var(--color-text); background: #fafafa; }
+        .done-box { text-align: center; padding: 3rem 0; display: none; }
+        .hidden { display: none !important; }
+        .turnstile-wrap { margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="header-inner">
+            <h1 class="logo"><a href="index.html" style="display: block; width: 100%; height: 100%;"><img src="images/header_logo.png?v=20260615-2" alt="Dining Bar HerLock"></a></h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">TOP</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="reserve-page">
+            <h2 class="section-title">RESERVATION</h2>
+
+            <!-- キャンセル画面（?cancel=トークン付きでアクセスした場合のみ表示） -->
+            <div id="cancelView" class="hidden">
+                <p id="cancelInfo" style="line-height: 2.2;"></p>
+                <div id="cancelMsg" class="msg"></div>
+                <button id="cancelBtn" class="submit-btn">この予約をキャンセルする</button>
+            </div>
+
+            <!-- 予約フォーム -->
+            <form id="reserveForm">
+                <div class="step">
+                    <label class="step-label" for="party">人数<span class="req">必須</span></label>
+                    <select id="party" class="form-select" required></select>
+                    <div id="groupNotice" class="notice-box">
+                        団体でのご予約は<strong>仮受付</strong>となり、内容確認のお電話を店舗より差し上げます。<br>
+                        ※ご来店の1週間前〜2日前の間に5名以上の人数変更がある場合、キャンセル料が発生する可能性があります。人数の変更は都度ご連絡ください。
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-label">日付<span class="req">必須</span></span>
+                    <div class="cal-head">
+                        <button type="button" class="cal-nav" id="calPrev">&lt;</button>
+                        <span class="cal-title" id="calTitle"></span>
+                        <button type="button" class="cal-nav" id="calNext">&gt;</button>
+                    </div>
+                    <div class="cal-grid" id="calGrid"></div>
+                    <p class="course-note" style="margin-left:0;">Web予約は前日まで承ります。当日のご予約はお電話（0985-35-5414）にてお願いいたします。</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-label">時間<span class="req">必須</span></span>
+                    <div class="slot-grid" id="slotGrid"><p style="grid-column: 1/-1; font-size: 0.85rem; color: var(--color-text-light);">日付を選択すると時間が表示されます</p></div>
+                </div>
+
+                <div class="step">
+                    <span class="step-label">コース</span>
+                    <div id="courseList"></div>
+                    <div class="drink-addon" id="drinkAddon">
+                        <label><input type="checkbox" id="drinkCheck"><span id="drinkLabel"></span></label>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <label class="step-label" for="name">お名前<span class="req">必須</span></label>
+                    <input type="text" id="name" class="form-input" maxlength="50" autocomplete="name" required>
+                </div>
+                <div class="step">
+                    <label class="step-label" for="phone">お電話番号<span class="req">必須</span></label>
+                    <input type="tel" id="phone" class="form-input" placeholder="09012345678" autocomplete="tel" required>
+                </div>
+                <div class="step">
+                    <label class="step-label" for="email">メールアドレス<span class="req">必須</span></label>
+                    <input type="email" id="email" class="form-input" maxlength="100" autocomplete="email" required>
+                </div>
+                <div class="step">
+                    <label class="step-label" for="notes">ご要望（アレルギー・記念日など）</label>
+                    <textarea id="notes" class="form-textarea" maxlength="500"></textarea>
+                </div>
+
+                <div class="turnstile-wrap">
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAADwRucy3g1hq9Vm0" data-callback="onTurnstileOk"></div>
+                </div>
+
+                <div id="formMsg" class="msg"></div>
+                <button type="submit" id="submitBtn" class="submit-btn" disabled>予約を確定する</button>
+
+                <p class="policy-note">
+                    【キャンセルについて】前日18:00までは確認メール内のURLからキャンセルいただけます。それ以降はお電話にてご連絡ください。<br>
+                    【個人情報の取り扱い】ご入力いただいた情報は、ご予約の管理・ご来店のご案内のみに利用し、法令に基づく場合を除き第三者に提供いたしません。削除をご希望の際は店舗までご連絡ください。
+                </p>
+            </form>
+
+            <div class="done-box" id="doneBox">
+                <p id="doneText" style="line-height: 2.4;"></p>
+                <a href="index.html" class="btn btn-line" style="margin-top: 2rem;">トップへ戻る</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="copyright">&copy; HerLock. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        'use strict';
+        // ================= 設定（セットアップ手順書に従って書き換える） =================
+        var FUNCTIONS_BASE = 'https://nxqnyhfdbiyuxahutkvf.supabase.co/functions/v1';
+        // ==========================================================================
+
+        var state = {
+            meta: null, party: 2, date: null, slot: null,
+            courseId: null, course: null, drinkOption: 'none',
+            calYear: 0, calMonth: 0, turnstileToken: null, calendarCache: {}
+        };
+
+        function $(id) { return document.getElementById(id); }
+        function api(path) { return FUNCTIONS_BASE + path; }
+        function minLabel(min) {
+            var h = Math.floor(min / 60), m = ('0' + (min % 60)).slice(-2);
+            return h >= 24 ? h + ':' + m + '（翌' + (h - 24) + ':' + m + '）' : h + ':' + m;
+        }
+        function showMsg(el, text, isError) {
+            el.textContent = text;
+            el.className = 'msg ' + (isError ? 'error' : 'success');
+            el.style.display = 'block';
+        }
+
+        window.onTurnstileOk = function (token) {
+            state.turnstileToken = token;
+            $('submitBtn').disabled = false;
+        };
+
+        // ---------- キャンセル画面 ----------
+        var cancelToken = new URLSearchParams(location.search).get('cancel');
+        if (cancelToken) {
+            $('reserveForm').classList.add('hidden');
+            $('cancelView').classList.remove('hidden');
+            fetch(api('/cancel-reservation?token=' + encodeURIComponent(cancelToken)))
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    if (d.error) { $('cancelInfo').textContent = d.error; $('cancelBtn').classList.add('hidden'); return; }
+                    var r = d.reservation;
+                    $('cancelInfo').innerHTML = 'ご予約内容<br>' + r.date_label + ' ' + r.time_label + ' ' + r.party_size + '名様（' + r.name + ' 様）';
+                    if (r.status === 'cancelled') { $('cancelInfo').innerHTML += '<br><br>この予約はキャンセル済みです。'; $('cancelBtn').classList.add('hidden'); }
+                    else if (!r.cancellable) { $('cancelInfo').innerHTML += '<br><br>Webでのキャンセル期限（前日18:00）を過ぎています。お電話（0985-35-5414）にてご連絡ください。'; $('cancelBtn').classList.add('hidden'); }
+                })
+                .catch(function () { $('cancelInfo').textContent = '予約情報の取得に失敗しました。'; $('cancelBtn').classList.add('hidden'); });
+
+            $('cancelBtn').addEventListener('click', function () {
+                if (!window.confirm('この予約をキャンセルします。よろしいですか？')) return;
+                $('cancelBtn').disabled = true;
+                fetch(api('/cancel-reservation'), {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: cancelToken })
+                }).then(function (r) { return r.json(); }).then(function (d) {
+                    if (d.ok) { showMsg($('cancelMsg'), d.message, false); $('cancelBtn').classList.add('hidden'); }
+                    else { showMsg($('cancelMsg'), d.error || 'エラーが発生しました。', true); $('cancelBtn').disabled = false; }
+                }).catch(function () { showMsg($('cancelMsg'), '通信エラーが発生しました。', true); $('cancelBtn').disabled = false; });
+            });
+            return; // 予約フォームの初期化は行わない
+        }
+
+        // ---------- 人数 ----------
+        (function initParty() {
+            var sel = $('party');
+            for (var i = 1; i <= 50; i++) {
+                var op = document.createElement('option');
+                op.value = String(i); op.textContent = i + '名';
+                if (i === 2) op.selected = true;
+                sel.appendChild(op);
+            }
+            sel.addEventListener('change', function () {
+                state.party = Number(sel.value);
+                var threshold = state.meta ? state.meta.settings.group_threshold : 9;
+                $('groupNotice').style.display = state.party >= threshold ? 'block' : 'none';
+                if (state.date) loadSlots();
+            });
+        })();
+
+        // ---------- カレンダー ----------
+        function pad(n) { return ('0' + n).slice(-2); }
+        function drawCalendar() {
+            var y = state.calYear, m = state.calMonth;
+            $('calTitle').textContent = y + '.' + pad(m + 1);
+            var grid = $('calGrid');
+            grid.innerHTML = '';
+            ['日', '月', '火', '水', '木', '金', '土'].forEach(function (d) {
+                var el = document.createElement('span'); el.className = 'dow'; el.textContent = d; grid.appendChild(el);
+            });
+            var first = new Date(y, m, 1).getDay();
+            var days = new Date(y, m + 1, 0).getDate();
+            for (var b = 0; b < first; b++) grid.appendChild(document.createElement('span'));
+            var monthKey = y + '-' + pad(m + 1);
+            var open = state.calendarCache[monthKey] || {};
+            for (var d = 1; d <= days; d++) {
+                var dateStr = monthKey + '-' + pad(d);
+                var btn = document.createElement('button');
+                btn.type = 'button'; btn.className = 'cal-day'; btn.dataset.date = dateStr;
+                btn.innerHTML = d + '<span class="mark">' + (open[dateStr] ? '○' : '×') + '</span>';
+                btn.disabled = !open[dateStr];
+                if (state.date === dateStr) btn.classList.add('selected');
+                btn.addEventListener('click', function () {
+                    state.date = this.dataset.date; state.slot = null;
+                    drawCalendar(); loadSlots();
+                });
+                grid.appendChild(btn);
+            }
+        }
+        function loadCalendar() {
+            var y = state.calYear, m = state.calMonth;
+            var monthKey = y + '-' + pad(m + 1);
+            if (state.calendarCache[monthKey]) { drawCalendar(); return; }
+            var from = monthKey + '-01';
+            var to = monthKey + '-' + pad(new Date(y, m + 1, 0).getDate());
+            fetch(api('/get-availability?mode=calendar&from=' + from + '&to=' + to))
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    var map = {};
+                    (d.days || []).forEach(function (day) { map[day.date] = day.is_open; });
+                    state.calendarCache[monthKey] = map;
+                    drawCalendar();
+                })
+                .catch(function () { showMsg($('formMsg'), 'カレンダーの取得に失敗しました。時間をおいてお試しください。', true); });
+        }
+        $('calPrev').addEventListener('click', function () {
+            var now = new Date();
+            if (state.calYear === now.getFullYear() && state.calMonth === now.getMonth()) return;
+            state.calMonth--; if (state.calMonth < 0) { state.calMonth = 11; state.calYear--; }
+            loadCalendar();
+        });
+        $('calNext').addEventListener('click', function () {
+            state.calMonth++; if (state.calMonth > 11) { state.calMonth = 0; state.calYear++; }
+            loadCalendar();
+        });
+
+        // ---------- 時間スロット ----------
+        function loadSlots() {
+            var grid = $('slotGrid');
+            grid.innerHTML = '<p style="grid-column: 1/-1; font-size: 0.85rem;">読み込み中…</p>';
+            fetch(api('/get-availability?mode=slots&date=' + state.date + '&party=' + state.party))
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    grid.innerHTML = '';
+                    var slots = d.slots || [];
+                    if (slots.length === 0) {
+                        grid.innerHTML = '<p style="grid-column: 1/-1; font-size: 0.85rem;">この日はご予約いただけません。</p>';
+                        return;
+                    }
+                    slots.forEach(function (s) {
+                        var btn = document.createElement('button');
+                        btn.type = 'button'; btn.className = 'slot-btn';
+                        btn.textContent = minLabel(s.start_min);
+                        btn.disabled = !s.available;
+                        if (state.slot === s.start_min) btn.classList.add('selected');
+                        btn.addEventListener('click', function () {
+                            state.slot = s.start_min;
+                            grid.querySelectorAll('.slot-btn').forEach(function (b) { b.classList.remove('selected'); });
+                            btn.classList.add('selected');
+                        });
+                        grid.appendChild(btn);
+                    });
+                })
+                .catch(function () { grid.innerHTML = '<p style="grid-column: 1/-1; font-size: 0.85rem;">時間の取得に失敗しました。</p>'; });
+        }
+
+        // ---------- コース ----------
+        function drawCourses() {
+            var list = $('courseList');
+            list.innerHTML = '';
+            var options = [{ id: '', name: '席のみ（コースなし）', price: null }].concat(state.meta.courses);
+            options.forEach(function (c) {
+                var label = document.createElement('label');
+                label.className = 'course-option';
+                var priceHtml = c.price !== null ? '<span class="price">' + c.price.toLocaleString() + '円</span>' : '';
+                var note = c.id === '' ? '' :
+                    (c.includes_nomihodai ? '<p class="course-note">飲み放題込み</p>' :
+                        (c.allow_nomihodai_addon ? '<p class="course-note">飲み放題別（+1,500円で追加可）</p>' : ''));
+                label.innerHTML = '<input type="radio" name="course" value="' + c.id + '"' + (c.id === '' ? ' checked' : '') + '>' + c.name + priceHtml + note;
+                list.appendChild(label);
+            });
+            list.addEventListener('change', updateDrinkAddon);
+            updateDrinkAddon();
+        }
+        function updateDrinkAddon() {
+            var selected = document.querySelector('input[name="course"]:checked');
+            var id = selected ? selected.value : '';
+            state.courseId = id === '' ? null : id;
+            state.course = state.meta.courses.find(function (c) { return c.id === id; }) || null;
+            var addon = $('drinkAddon'), check = $('drinkCheck');
+            check.checked = false;
+            if (!state.course) {
+                $('drinkLabel').textContent = '単品飲み放題プランを付ける（+3,500円/人）';
+                addon.style.display = 'block';
+            } else if (state.course.allow_nomihodai_addon) {
+                $('drinkLabel').textContent = '飲み放題を追加する（+1,500円/人）';
+                addon.style.display = 'block';
+            } else {
+                addon.style.display = 'none';
+            }
+            syncDrinkOption();
+        }
+        function syncDrinkOption() {
+            if (state.course && state.course.includes_nomihodai) state.drinkOption = 'included';
+            else if (state.course && $('drinkCheck').checked) state.drinkOption = 'add_1500';
+            else if (!state.course && $('drinkCheck').checked) state.drinkOption = 'standalone_3500';
+            else state.drinkOption = 'none';
+        }
+        $('drinkCheck').addEventListener('change', syncDrinkOption);
+
+        // ---------- 送信 ----------
+        $('reserveForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var msg = $('formMsg');
+            msg.style.display = 'none';
+            if (!state.date) { showMsg(msg, '日付を選択してください。', true); return; }
+            if (state.slot === null) { showMsg(msg, '時間を選択してください。', true); return; }
+            if (!state.turnstileToken) { showMsg(msg, '認証の完了をお待ちください。', true); return; }
+            syncDrinkOption();
+
+            var btn = $('submitBtn');
+            btn.disabled = true; btn.textContent = '送信中…';
+            fetch(api('/create-reservation'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    date: state.date,
+                    start_min: state.slot,
+                    party_size: state.party,
+                    course_id: state.courseId,
+                    drink_option: state.drinkOption,
+                    name: $('name').value,
+                    phone: $('phone').value,
+                    email: $('email').value,
+                    notes: $('notes').value,
+                    turnstile_token: state.turnstileToken
+                })
+            }).then(function (r) { return r.json(); }).then(function (d) {
+                if (d.ok) {
+                    $('reserveForm').classList.add('hidden');
+                    $('doneBox').style.display = 'block';
+                    $('doneText').textContent = d.message;
+                } else {
+                    showMsg(msg, d.error || 'エラーが発生しました。', true);
+                    btn.disabled = false; btn.textContent = '予約を確定する';
+                    if (window.turnstile) { window.turnstile.reset(); state.turnstileToken = null; }
+                }
+            }).catch(function () {
+                showMsg(msg, '通信エラーが発生しました。時間をおいてお試しください。', true);
+                btn.disabled = false; btn.textContent = '予約を確定する';
+            });
+        });
+
+        // ---------- 初期化 ----------
+        var now = new Date();
+        state.calYear = now.getFullYear();
+        state.calMonth = now.getMonth();
+        fetch(api('/get-availability?mode=meta'))
+            .then(function (r) { return r.json(); })
+            .then(function (d) { state.meta = d; drawCourses(); loadCalendar(); })
+            .catch(function () { showMsg($('formMsg'), '予約システムに接続できませんでした。お電話（0985-35-5414）にてご予約ください。', true); });
+    })();
+    </script>
+</body>
+</html>
