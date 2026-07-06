@@ -44,6 +44,9 @@
         .cal .closed { background: #f3f3f3; color: #aaa; }
         .cal .special-open { border-color: var(--gold); color: var(--gold); font-weight: 600; }
         .cal .special-closed { border-color: var(--accent); color: var(--accent); text-decoration: line-through; }
+        .cal .cnt { display: block; font-size: 0.62rem; color: var(--accent); line-height: 1.1; }
+        .cal .sel { background: var(--text); color: #fff; }
+        .cal .sel .cnt { color: #fff; }
         .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
         .cal-head button { border: 1px solid var(--border); background: #fff; padding: 0.3rem 1rem; border-radius: 4px; cursor: pointer; }
         .legend { font-size: 0.72rem; color: var(--light); margin-top: 0.5rem; line-height: 1.8; }
@@ -88,23 +91,24 @@
                 <div id="pendingList"></div>
             </section>
 
-            <!-- 予約一覧 -->
+            <!-- 予約一覧（カレンダービュー） -->
             <section id="tab-list" class="hidden">
-                <div class="grid2">
-                    <div><label>日付</label><input type="date" id="listDate"></div>
-                    <div><label>状態</label>
-                        <select id="listStatus">
-                            <option value="">すべて</option>
-                            <option value="pending">仮受付</option>
-                            <option value="confirmed">確定</option>
-                            <option value="seated">着席</option>
-                            <option value="finished">済</option>
-                            <option value="cancelled">キャンセル</option>
-                            <option value="noshow">無断キャンセル</option>
-                        </select>
-                    </div>
+                <div class="cal-head">
+                    <button id="lPrev">&lt;</button><span id="lTitle"></span><button id="lNext">&gt;</button>
                 </div>
-                <div id="listResult" style="margin-top: 0.8rem;"></div>
+                <div class="cal" id="lGrid"></div>
+                <label>状態で絞り込み</label>
+                <select id="listStatus">
+                    <option value="">すべて</option>
+                    <option value="pending">仮受付</option>
+                    <option value="confirmed">確定</option>
+                    <option value="seated">着席</option>
+                    <option value="finished">済</option>
+                    <option value="cancelled">キャンセル</option>
+                    <option value="noshow">無断キャンセル</option>
+                </select>
+                <h2 id="listDayTitle"></h2>
+                <div id="listResult"></div>
             </section>
 
             <!-- 手動登録 -->
@@ -220,7 +224,7 @@
             $('loginView').classList.add('hidden');
             $('appView').classList.remove('hidden');
             Promise.all([
-                sb.from('seat_types').select('*').order('sort'),
+                sb.from('seat_types').select('*').eq('active', true).order('floor').order('sort'),
                 sb.from('settings').select('*').eq('id', 1).single()
             ]).then(function (rs) {
                 seatTypes = rs[0].data || [];
@@ -321,7 +325,7 @@
             sb.from('reservations').select('*').eq('status', 'pending').order('date').order('start_min').then(function (r) {
                 var rows = r.data || [];
                 var seatOpts = '<option value="">席: 未定</option>' + seatTypes.map(function (s) {
-                    return '<option value="' + s.id + '">' + esc(s.name) + '</option>';
+                    return '<option value="' + s.id + '">' + esc(s.name) + '（' + s.total_capacity + '名分）</option>';
                 }).join('');
                 $('pendingList').innerHTML = rows.length === 0 ? '<p style="color:#888;">仮受付はありません。</p>' :
                     rows.map(function (x) {
@@ -370,33 +374,78 @@
             });
         }
 
-        // ---------- 一覧 ----------
-        $('listDate').addEventListener('change', loadList);
-        $('listStatus').addEventListener('change', loadList);
+        // ---------- 一覧（カレンダービュー） ----------
+        var lYear = 0, lMonth = 0, lSelDate = null, lRows = [];
+        $('lPrev').addEventListener('click', function () { lMonth--; if (lMonth < 0) { lMonth = 11; lYear--; } lSelDate = null; loadList(); });
+        $('lNext').addEventListener('click', function () { lMonth++; if (lMonth > 11) { lMonth = 0; lYear++; } lSelDate = null; loadList(); });
+        $('listStatus').addEventListener('change', renderListDetail);
+
         function loadList() {
-            if (!$('listDate').value) $('listDate').value = bizToday();
-            var q = sb.from('reservations').select('*').eq('date', $('listDate').value).order('start_min');
-            if ($('listStatus').value) q = q.eq('status', $('listStatus').value);
-            q.then(function (r) {
-                var rows = r.data || [];
-                $('listResult').innerHTML = rows.length === 0 ? '<p style="color:#888;">該当する予約はありません。</p>' :
-                    rows.map(function (x) {
-                        var btns = ['pending', 'confirmed'].indexOf(x.status) >= 0 ? '<button class="danger" data-act="cancel">キャンセル</button>' : '';
-                        return resvCard(x, btns);
-                    }).join('');
-                $('listResult').querySelectorAll('button[data-act]').forEach(function (btn) {
-                    btn.addEventListener('click', function () {
-                        var card = btn.closest('.card');
-                        var resv = rows.find(function (x) { return x.id === card.dataset.id; });
-                        if (!window.confirm('この予約をキャンセルしますか？（お客様へ通知メールが送られます）')) return;
-                        sb.from('reservations').update({ status: 'cancelled', updated_at: new Date().toISOString() }).eq('id', resv.id)
-                            .then(function (r2) {
-                                if (r2.error) { flash('更新に失敗しました', true); return; }
-                                logAudit('cancel_by_staff', resv.id);
-                                notifyCustomer(resv.id, 'cancelled');
-                                loadList();
-                            });
-                    });
+            if (!lYear) {
+                var now = new Date(Date.now() + 9 * 3600000);
+                lYear = now.getUTCFullYear(); lMonth = now.getUTCMonth();
+                lSelDate = bizToday();
+            }
+            var from = lYear + '-' + pad(lMonth + 1) + '-01';
+            var lastD = new Date(lYear, lMonth + 1, 0).getDate();
+            var to = lYear + '-' + pad(lMonth + 1) + '-' + pad(lastD);
+            sb.from('reservations').select('*').gte('date', from).lte('date', to)
+                .order('date').order('start_min').then(function (r) {
+                    lRows = r.data || [];
+                    drawListCal(lastD);
+                    renderListDetail();
+                });
+        }
+        function drawListCal(lastDate) {
+            $('lTitle').textContent = lYear + '.' + pad(lMonth + 1);
+            var grid = $('lGrid');
+            grid.innerHTML = '';
+            ['日', '月', '火', '水', '木', '金', '土'].forEach(function (w) {
+                var el = document.createElement('span'); el.className = 'dw'; el.textContent = w; grid.appendChild(el);
+            });
+            var first = new Date(lYear, lMonth, 1).getDay();
+            for (var b = 0; b < first; b++) grid.appendChild(document.createElement('span'));
+            for (var d = 1; d <= lastDate; d++) {
+                var dateStr = lYear + '-' + pad(lMonth + 1) + '-' + pad(d);
+                var act = lRows.filter(function (x) {
+                    return x.date === dateStr && ['pending', 'confirmed', 'seated'].indexOf(x.status) >= 0;
+                });
+                var guests = act.reduce(function (a, x) { return a + x.party_size; }, 0);
+                var btn = document.createElement('button');
+                btn.innerHTML = d + '<span class="cnt">' + (act.length ? act.length + '件' + guests + '名' : '') + '</span>';
+                if (lSelDate === dateStr) btn.classList.add('sel');
+                btn.dataset.date = dateStr;
+                btn.addEventListener('click', function () {
+                    lSelDate = this.dataset.date;
+                    drawListCal(lastDate);
+                    renderListDetail();
+                });
+                grid.appendChild(btn);
+            }
+        }
+        function renderListDetail() {
+            if (!lSelDate) { $('listDayTitle').textContent = ''; $('listResult').innerHTML = '<p style="color:#888;">日付をタップすると詳細が表示されます。</p>'; return; }
+            $('listDayTitle').textContent = lSelDate + ' の予約';
+            var rows = lRows.filter(function (x) {
+                return x.date === lSelDate && (!$('listStatus').value || x.status === $('listStatus').value);
+            });
+            $('listResult').innerHTML = rows.length === 0 ? '<p style="color:#888;">該当する予約はありません。</p>' :
+                rows.map(function (x) {
+                    var btns = ['pending', 'confirmed'].indexOf(x.status) >= 0 ? '<button class="danger" data-act="cancel">キャンセル</button>' : '';
+                    return resvCard(x, btns);
+                }).join('');
+            $('listResult').querySelectorAll('button[data-act]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var card = btn.closest('.card');
+                    var resv = rows.find(function (x) { return x.id === card.dataset.id; });
+                    if (!window.confirm('この予約をキャンセルしますか？（お客様へ通知メールが送られます）')) return;
+                    sb.from('reservations').update({ status: 'cancelled', updated_at: new Date().toISOString() }).eq('id', resv.id)
+                        .then(function (r2) {
+                            if (r2.error) { flash('更新に失敗しました', true); return; }
+                            logAudit('cancel_by_staff', resv.id);
+                            notifyCustomer(resv.id, 'cancelled');
+                            loadList();
+                        });
                 });
             });
         }
