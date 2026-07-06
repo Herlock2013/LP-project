@@ -610,11 +610,22 @@
                             sb.from('customers').update({ notes: card.querySelector('.custNotes').value }).eq('id', id)
                                 .then(function (r2) { flash(r2.error ? '保存に失敗しました' : 'メモを保存しました', !!r2.error); });
                         } else {
-                            if (!window.confirm('この顧客情報を完全に削除しますか？（削除依頼への対応用。元に戻せません）')) return;
-                            sb.from('customers').delete().eq('id', id).then(function (r2) {
-                                if (r2.error) { flash('削除に失敗しました（予約履歴が残っている場合は予約側の連絡先も確認）', true); return; }
-                                logAudit('delete_customer', id);
-                                loadCustomers();
+                            var cust = rows.find(function (x) { return x.id === id; });
+                            var typed = window.prompt('誤削除防止のため、削除する顧客の名前を正確に入力してください:\n「' + cust.name + '」');
+                            if (typed === null) return;
+                            if (typed.trim() !== cust.name) { flash('名前が一致しないため削除を中止しました', true); return; }
+                            var anonymize = window.confirm('過去の予約履歴に残っている連絡先も匿名化しますか？\nOK: 匿名化する（削除依頼への完全対応）\nキャンセル: 予約履歴はそのまま残す');
+                            var pre = anonymize
+                                ? sb.from('reservations').update({ customer_name: '（削除済み）', customer_phone: '0000000000', customer_email: null }).eq('customer_id', id)
+                                : Promise.resolve({ error: null });
+                            Promise.resolve(pre).then(function (r1) {
+                                if (r1.error) { flash('匿名化に失敗しました', true); return; }
+                                sb.from('customers').delete().eq('id', id).then(function (r2) {
+                                    if (r2.error) { flash('削除に失敗しました', true); return; }
+                                    logAudit(anonymize ? 'delete_customer_anonymized' : 'delete_customer', id);
+                                    flash('削除しました');
+                                    loadCustomers();
+                                });
                             });
                         }
                     });
