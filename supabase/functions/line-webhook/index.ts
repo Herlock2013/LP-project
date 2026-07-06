@@ -6,7 +6,7 @@ import { adminClient, jsonResponse } from "../_shared/common.ts";
 
 interface LineEvent {
   type: string;
-  source?: { type: string; userId?: string };
+  source?: { type: string; userId?: string; groupId?: string };
 }
 
 async function validSignature(body: string, signature: string | null): Promise<boolean> {
@@ -32,11 +32,12 @@ Deno.serve(async (req: Request): Promise<Response> => {
     const db = adminClient();
     for (const ev of payload.events ?? []) {
       const userId = ev.source?.userId;
-      if (userId) {
+      const groupId = ev.source?.groupId;
+      if (userId || groupId) {
         await db.from("audit_log").insert({
           actor: "line-webhook",
           action: "line_user_capture",
-          detail: { userId, event_type: ev.type },
+          detail: { userId, groupId, source_type: ev.source?.type, event_type: ev.type },
         });
       }
     }
