@@ -2,7 +2,8 @@
 import { createClient, SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 export const corsHeaders: Record<string, string> = {
-  "Access-Control-Allow-Origin": "*", // 公開後は独自ドメインに絞る
+  // SITE_URL が設定されていれば自店ドメインからのアクセスのみ許可（本番向け）
+  "Access-Control-Allow-Origin": Deno.env.get("SITE_URL") ?? "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
