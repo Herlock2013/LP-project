@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>予約管理 | HerLock</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <style>
+        :root { --text: #1a1a1a; --light: #666; --border: #ddd; --accent: #C0392B; --gold: #b08d2a; --bg: #fafafa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif; color: var(--text); background: var(--bg); font-size: 15px; padding-bottom: 70px; }
+        header { background: #fff; border-bottom: 1px solid var(--border); padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+        header h1 { font-size: 1rem; letter-spacing: 0.1em; }
+        header button { border: 1px solid var(--border); background: #fff; padding: 0.3rem 0.8rem; font-size: 0.8rem; cursor: pointer; }
+        main { max-width: 720px; margin: 0 auto; padding: 1rem; }
+        .tabbar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid var(--border); display: flex; z-index: 10; }
+        .tabbar button { flex: 1; padding: 0.7rem 0; border: none; background: none; font-size: 0.72rem; color: var(--light); cursor: pointer; line-height: 1.3; }
+        .tabbar button.active { color: var(--text); font-weight: 600; border-top: 2px solid var(--text); }
+        .card { background: #fff; border: 1px solid var(--border); padding: 0.9rem 1rem; margin-bottom: 0.7rem; border-radius: 6px; }
+        .card.pending { border-left: 4px solid var(--accent); }
+        .card .row1 { display: flex; justify-content: space-between; font-weight: 600; }
+        .card .row2 { color: var(--light); font-size: 0.85rem; margin-top: 0.2rem; line-height: 1.6; }
+        .badge { font-size: 0.7rem; padding: 0.1rem 0.5rem; border-radius: 3px; border: 1px solid currentColor; }
+        .st-pending { color: var(--accent); } .st-confirmed { color: #2c6e49; } .st-seated { color: #1d4ed8; }
+        .st-cancelled, .st-noshow { color: #999; } .st-finished { color: #555; }
+        .actions { display: flex; gap: 0.5rem; margin-top: 0.7rem; flex-wrap: wrap; }
+        .actions button, .actions select { padding: 0.45rem 0.9rem; font-size: 0.85rem; border: 1px solid var(--border); background: #fff; border-radius: 4px; cursor: pointer; }
+        .actions .primary { background: var(--text); color: #fff; border-color: var(--text); }
+        .actions .danger { color: var(--accent); border-color: var(--accent); }
+        h2 { font-size: 0.95rem; margin: 1rem 0 0.7rem; letter-spacing: 0.05em; }
+        label { display: block; font-size: 0.8rem; color: var(--light); margin: 0.7rem 0 0.25rem; }
+        input, select, textarea { width: 100%; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 4px; font-size: 1rem; background: #fff; }
+        textarea { min-height: 70px; }
+        .btn-main { width: 100%; padding: 0.85rem; margin-top: 1rem; background: var(--text); color: #fff; border: none; border-radius: 4px; font-size: 0.95rem; cursor: pointer; }
+        .btn-main:disabled { opacity: 0.4; }
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+        .msg { padding: 0.7rem 0.9rem; border-radius: 4px; font-size: 0.85rem; margin: 0.7rem 0; display: none; }
+        .msg.err { background: #fdf0ee; color: var(--accent); display: block; }
+        .msg.ok { background: #eef7f0; color: #2c6e49; display: block; }
+        .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+        .cal .dw { text-align: center; font-size: 0.7rem; color: var(--light); padding: 0.2rem 0; }
+        .cal button { aspect-ratio: 1; border: 1px solid var(--border); background: #fff; border-radius: 4px; font-size: 0.85rem; cursor: pointer; line-height: 1.2; }
+        .cal .closed { background: #f3f3f3; color: #aaa; }
+        .cal .special-open { border-color: var(--gold); color: var(--gold); font-weight: 600; }
+        .cal .special-closed { border-color: var(--accent); color: var(--accent); text-decoration: line-through; }
+        .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+        .cal-head button { border: 1px solid var(--border); background: #fff; padding: 0.3rem 1rem; border-radius: 4px; cursor: pointer; }
+        .legend { font-size: 0.72rem; color: var(--light); margin-top: 0.5rem; line-height: 1.8; }
+        .hidden { display: none !important; }
+        .login-box { max-width: 360px; margin: 15vh auto 0; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 2rem 1.5rem; }
+        .login-box h1 { font-size: 1.1rem; text-align: center; margin-bottom: 1rem; letter-spacing: 0.15em; }
+        .chip { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid var(--border); border-radius: 999px; padding: 0.25rem 0.8rem; margin: 0.2rem 0.2rem 0 0; font-size: 0.85rem; background: #fff; }
+        .chip button { border: none; background: none; color: var(--accent); cursor: pointer; font-size: 1rem; }
+        .warn { color: var(--accent); font-size: 0.8rem; margin-top: 0.4rem; }
+    </style>
+</head>
+<body>
+    <!-- ログイン -->
+    <div id="loginView" class="login-box">
+        <h1>HerLock 予約管理</h1>
+        <label>メールアドレス</label>
+        <input type="email" id="loginEmail" autocomplete="username">
+        <label>パスワード</label>
+        <input type="password" id="loginPass" autocomplete="current-password">
+        <div id="loginMsg" class="msg"></div>
+        <button class="btn-main" id="loginBtn">ログイン</button>
+    </div>
+
+    <!-- 本体 -->
+    <div id="appView" class="hidden">
+        <header>
+            <h1>HerLock 予約管理</h1>
+            <button id="logoutBtn">ログアウト</button>
+        </header>
+        <main>
+            <div id="globalMsg" class="msg"></div>
+
+            <!-- 今日 -->
+            <section id="tab-today">
+                <h2 id="todayTitle"></h2>
+                <div id="todayList"></div>
+            </section>
+
+            <!-- 仮受付 -->
+            <section id="tab-pending" class="hidden">
+                <h2>仮受付（要電話確認）</h2>
+                <div id="pendingList"></div>
+            </section>
+
+            <!-- 予約一覧 -->
+            <section id="tab-list" class="hidden">
+                <div class="grid2">
+                    <div><label>日付</label><input type="date" id="listDate"></div>
+                    <div><label>状態</label>
+                        <select id="listStatus">
+                            <option value="">すべて</option>
+                            <option value="pending">仮受付</option>
+                            <option value="confirmed">確定</option>
+                            <option value="seated">着席</option>
+                            <option value="finished">済</option>
+                            <option value="cancelled">キャンセル</option>
+                            <option value="noshow">無断キャンセル</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="listResult" style="margin-top: 0.8rem;"></div>
+            </section>
+
+            <!-- 手動登録 -->
+            <section id="tab-add" class="hidden">
+                <h2>予約の手動登録（ホットペッパー・電話）</h2>
+                <label>受付元</label>
+                <select id="addSource">
+                    <option value="hotpepper">ホットペッパー</option>
+                    <option value="phone">電話</option>
+                    <option value="walkin">来店（ウォークイン）</option>
+                </select>
+                <div class="grid2">
+                    <div><label>日付</label><input type="date" id="addDate"></div>
+                    <div><label>時間</label><select id="addTime"></select></div>
+                </div>
+                <div class="grid2">
+                    <div><label>人数</label><input type="number" id="addParty" min="1" max="200" value="2"></div>
+                    <div><label>席</label><select id="addSeat"></select></div>
+                </div>
+                <div id="addCapacity" class="warn"></div>
+                <label>お名前</label><input type="text" id="addName" maxlength="50">
+                <label>電話番号</label><input type="tel" id="addPhone" placeholder="09012345678">
+                <label>メモ（コース・要望など）</label><textarea id="addNotes" maxlength="500"></textarea>
+                <div id="addMsg" class="msg"></div>
+                <button class="btn-main" id="addBtn">登録する</button>
+            </section>
+
+            <!-- 営業日カレンダー -->
+            <section id="tab-days" class="hidden">
+                <h2>営業日カレンダー</h2>
+                <div class="cal-head">
+                    <button id="dPrev">&lt;</button><span id="dTitle"></span><button id="dNext">&gt;</button>
+                </div>
+                <div class="cal" id="dGrid"></div>
+                <p class="legend">タップで切替: 通常営業 → 休業（赤・打消） → 定休日に営業（金）→ 元に戻す<br>
+                月曜など定休日をタップすると「営業日」に変更できます。</p>
+            </section>
+
+            <!-- 顧客 -->
+            <section id="tab-customers" class="hidden">
+                <h2>顧客リスト</h2>
+                <input type="search" id="custSearch" placeholder="名前・電話番号で検索">
+                <div id="custList" style="margin-top: 0.8rem;"></div>
+            </section>
+
+            <!-- 設定 -->
+            <section id="tab-settings" class="hidden">
+                <h2>設定</h2>
+                <label>予約受け取りメールアドレス（複数可）</label>
+                <div id="emailChips"></div>
+                <div class="grid2" style="margin-top: 0.4rem;">
+                    <input type="email" id="newEmail" placeholder="追加するアドレス">
+                    <button class="btn-main" id="addEmailBtn" style="margin-top: 0;">追加</button>
+                </div>
+                <label>お客様の返信を受けるアドレス（Reply-To）</label>
+                <input type="email" id="replyTo">
+                <div id="setMsg" class="msg"></div>
+                <button class="btn-main" id="saveSettingsBtn">設定を保存</button>
+            </section>
+        </main>
+        <nav class="tabbar">
+            <button data-tab="today" class="active">今日</button>
+            <button data-tab="pending">仮受付<span id="pendingBadge"></span></button>
+            <button data-tab="list">一覧</button>
+            <button data-tab="add">登録</button>
+            <button data-tab="days">休業日</button>
+            <button data-tab="customers">顧客</button>
+            <button data-tab="settings">設定</button>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script>
+    (function () {
+        'use strict';
+        // ============ 設定（手順書に従って書き換える） ============
+        var SUPABASE_URL = 'https://nxqnyhfdbiyuxahutkvf.supabase.co';
+        var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54cW55aGZkYml5dXhhaHV0a3ZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMDk1ODIsImV4cCI6MjA5ODg4NTU4Mn0.oz2753nnLXL9Ssm96wr0-7ZQNU2WJPaLu1xmQilYa_s';
+        // ========================================================
+        var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        var seatTypes = [], settings = null, dYear = 0, dMonth = 0, specialMap = {};
+        var STATUS_JA = { pending: '仮受付', confirmed: '確定', seated: '着席', finished: '済', cancelled: 'キャンセル', noshow: '無断' };
+
+        function $(id) { return document.getElementById(id); }
+        function pad(n) { return ('0' + n).slice(-2); }
+        function minLabel(min) { var h = Math.floor(min / 60), m = pad(min % 60); return h >= 24 ? h + ':' + m : h + ':' + m; }
+        function bizToday() { // 深夜6時までは前日の営業日として扱う
+            var d = new Date(Date.now() + 9 * 3600000 - 6 * 3600000);
+            return d.toISOString().slice(0, 10);
+        }
+        function flash(text, isErr) {
+            var el = $('globalMsg');
+            el.textContent = text; el.className = 'msg ' + (isErr ? 'err' : 'ok');
+            setTimeout(function () { el.className = 'msg'; }, 4000);
+        }
+        function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+        // ---------- 認証 ----------
+        $('loginBtn').addEventListener('click', function () {
+            sb.auth.signInWithPassword({ email: $('loginEmail').value, password: $('loginPass').value })
+                .then(function (r) {
+                    if (r.error) { $('loginMsg').textContent = 'ログインに失敗しました。'; $('loginMsg').className = 'msg err'; }
+                    else { boot(); }
+                });
+        });
+        $('logoutBtn').addEventListener('click', function () { sb.auth.signOut().then(function () { location.reload(); }); });
+
+        sb.auth.getSession().then(function (r) {
+            if (r.data.session) boot();
+        });
+
+        function boot() {
+            $('loginView').classList.add('hidden');
+            $('appView').classList.remove('hidden');
+            Promise.all([
+                sb.from('seat_types').select('*').order('sort'),
+                sb.from('settings').select('*').eq('id', 1).single()
+            ]).then(function (rs) {
+                seatTypes = rs[0].data || [];
+                settings = rs[1].data;
+                initAdd(); initSettings();
+                var now = new Date(Date.now() + 9 * 3600000);
+                dYear = now.getUTCFullYear(); dMonth = now.getUTCMonth();
+                loadToday(); loadPendingBadge();
+            });
+        }
+
+        // ---------- タブ ----------
+        document.querySelectorAll('.tabbar button').forEach(function (b) {
+            b.addEventListener('click', function () {
+                document.querySelectorAll('.tabbar button').forEach(function (x) { x.classList.remove('active'); });
+                b.classList.add('active');
+                ['today', 'pending', 'list', 'add', 'days', 'customers', 'settings'].forEach(function (t) {
+                    $('tab-' + t).classList.toggle('hidden', t !== b.dataset.tab);
+                });
+                if (b.dataset.tab === 'today') loadToday();
+                if (b.dataset.tab === 'pending') loadPending();
+                if (b.dataset.tab === 'list') loadList();
+                if (b.dataset.tab === 'days') loadDays();
+                if (b.dataset.tab === 'customers') loadCustomers();
+            });
+        });
+
+        function seatName(id) {
+            var s = seatTypes.find(function (x) { return x.id === id; });
+            return s ? s.name : '未定';
+        }
+
+        function resvCard(r, buttonsHtml) {
+            return '<div class="card ' + (r.status === 'pending' ? 'pending' : '') + '" data-id="' + r.id + '">' +
+                '<div class="row1"><span>' + minLabel(r.start_min) + '　' + esc(r.customer_name) + ' 様　' + r.party_size + '名</span>' +
+                '<span class="badge st-' + r.status + '">' + STATUS_JA[r.status] + '</span></div>' +
+                '<div class="row2">' + r.date + '　' + seatName(r.seat_type_id) + '　' + ({ web: 'Web', hotpepper: 'HP', phone: '電話', walkin: '来店' }[r.source] || '') +
+                '　<a href="tel:' + esc(r.customer_phone) + '">' + esc(r.customer_phone) + '</a>' +
+                (r.notes ? '<br>メモ: ' + esc(r.notes) : '') + '</div>' +
+                (buttonsHtml ? '<div class="actions">' + buttonsHtml + '</div>' : '') + '</div>';
+        }
+
+        // ---------- 今日 ----------
+        function loadToday() {
+            var d = bizToday();
+            $('todayTitle').textContent = '今日の予約（' + d + '）';
+            sb.from('reservations').select('*').eq('date', d).order('start_min').then(function (r) {
+                var rows = (r.data || []).filter(function (x) { return ['pending', 'confirmed', 'seated'].indexOf(x.status) >= 0; });
+                $('todayList').innerHTML = rows.length === 0 ? '<p style="color:#888;">本日の予約はありません。</p>' :
+                    rows.map(function (x) {
+                        var btns = '';
+                        if (x.status === 'confirmed') btns = '<button class="primary" data-act="seated">着席</button><button class="danger" data-act="noshow">来店なし</button>';
+                        if (x.status === 'seated') btns = '<button data-act="finished">お会計済み</button>';
+                        return resvCard(x, btns);
+                    }).join('');
+                bindActions($('todayList'), rows, loadToday);
+            });
+        }
+
+        function bindActions(container, rows, reload) {
+            container.querySelectorAll('button[data-act]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var card = btn.closest('.card');
+                    var resv = rows.find(function (x) { return x.id === card.dataset.id; });
+                    var act = btn.dataset.act;
+                    if (act === 'noshow' && !window.confirm('無断キャンセルとして記録しますか？')) return;
+                    sb.from('reservations').update({ status: act, updated_at: new Date().toISOString() }).eq('id', resv.id)
+                        .then(function (r) {
+                            if (r.error) { flash('更新に失敗しました', true); return; }
+                            if (act === 'seated' && resv.customer_id) incrementVisit(resv.customer_id, resv.date);
+                            logAudit('status_' + act, resv.id);
+                            reload();
+                        });
+                });
+            });
+        }
+
+        function incrementVisit(customerId, date) {
+            sb.from('customers').select('visit_count').eq('id', customerId).single().then(function (r) {
+                if (!r.data) return;
+                sb.from('customers').update({ visit_count: (r.data.visit_count || 0) + 1, last_visit: date }).eq('id', customerId).then(function () {});
+            });
+        }
+
+        function logAudit(action, targetId) {
+            sb.auth.getUser().then(function (u) {
+                sb.from('audit_log').insert({ actor: (u.data.user && u.data.user.email) || 'staff', action: action, target_id: targetId }).then(function () {});
+            });
+        }
+
+        // ---------- 仮受付 ----------
+        function loadPendingBadge() {
+            sb.from('reservations').select('id', { count: 'exact', head: true }).eq('status', 'pending').then(function (r) {
+                $('pendingBadge').textContent = r.count ? '(' + r.count + ')' : '';
+            });
+        }
+        function loadPending() {
+            sb.from('reservations').select('*').eq('status', 'pending').order('date').order('start_min').then(function (r) {
+                var rows = r.data || [];
+                var seatOpts = '<option value="">席: 未定</option>' + seatTypes.map(function (s) {
+                    return '<option value="' + s.id + '">' + esc(s.name) + '</option>';
+                }).join('');
+                $('pendingList').innerHTML = rows.length === 0 ? '<p style="color:#888;">仮受付はありません。</p>' :
+                    rows.map(function (x) {
+                        return resvCard(x, '<select class="seatSel">' + seatOpts + '</select>' +
+                            '<button class="primary" data-act="confirm">電話済み・確定</button>' +
+                            '<button class="danger" data-act="cancel">キャンセル</button>');
+                    }).join('');
+                $('pendingList').querySelectorAll('button[data-act]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var card = btn.closest('.card');
+                        var resv = rows.find(function (x) { return x.id === card.dataset.id; });
+                        if (btn.dataset.act === 'confirm') {
+                            var seat = card.querySelector('.seatSel').value || null;
+                            sb.from('reservations').update({ status: 'confirmed', seat_type_id: seat, updated_at: new Date().toISOString() })
+                                .eq('id', resv.id).then(function (r2) {
+                                    if (r2.error) { flash('更新に失敗しました', true); return; }
+                                    logAudit('confirm_group', resv.id);
+                                    notifyCustomer(resv.id, 'confirmed');
+                                    loadPending(); loadPendingBadge();
+                                });
+                        } else {
+                            if (!window.confirm('この仮受付をキャンセルしますか？')) return;
+                            sb.from('reservations').update({ status: 'cancelled', updated_at: new Date().toISOString() })
+                                .eq('id', resv.id).then(function (r2) {
+                                    if (r2.error) { flash('更新に失敗しました', true); return; }
+                                    logAudit('cancel_group', resv.id);
+                                    notifyCustomer(resv.id, 'cancelled');
+                                    loadPending(); loadPendingBadge();
+                                });
+                        }
+                    });
+                });
+            });
+        }
+
+        function notifyCustomer(reservationId, type) {
+            sb.auth.getSession().then(function (s) {
+                var token = s.data.session ? s.data.session.access_token : '';
+                fetch(SUPABASE_URL + '/functions/v1/admin-notify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token, 'apikey': SUPABASE_ANON_KEY },
+                    body: JSON.stringify({ reservation_id: reservationId, type: type })
+                }).then(function (r) { return r.json(); }).then(function (d) {
+                    flash(d.ok ? 'お客様へメールを送信しました' : 'メール送信に失敗（お客様へ電話で連絡してください）', !d.ok);
+                }).catch(function () { flash('メール送信に失敗（お客様へ電話で連絡してください）', true); });
+            });
+        }
+
+        // ---------- 一覧 ----------
+        $('listDate').addEventListener('change', loadList);
+        $('listStatus').addEventListener('change', loadList);
+        function loadList() {
+            if (!$('listDate').value) $('listDate').value = bizToday();
+            var q = sb.from('reservations').select('*').eq('date', $('listDate').value).order('start_min');
+            if ($('listStatus').value) q = q.eq('status', $('listStatus').value);
+            q.then(function (r) {
+                var rows = r.data || [];
+                $('listResult').innerHTML = rows.length === 0 ? '<p style="color:#888;">該当する予約はありません。</p>' :
+                    rows.map(function (x) {
+                        var btns = ['pending', 'confirmed'].indexOf(x.status) >= 0 ? '<button class="danger" data-act="cancel">キャンセル</button>' : '';
+                        return resvCard(x, btns);
+                    }).join('');
+                $('listResult').querySelectorAll('button[data-act]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var card = btn.closest('.card');
+                        var resv = rows.find(function (x) { return x.id === card.dataset.id; });
+                        if (!window.confirm('この予約をキャンセルしますか？（お客様へ通知メールが送られます）')) return;
+                        sb.from('reservations').update({ status: 'cancelled', updated_at: new Date().toISOString() }).eq('id', resv.id)
+                            .then(function (r2) {
+                                if (r2.error) { flash('更新に失敗しました', true); return; }
+                                logAudit('cancel_by_staff', resv.id);
+                                notifyCustomer(resv.id, 'cancelled');
+                                loadList();
+                            });
+                    });
+                });
+            });
+        }
+
+        // ---------- 手動登録 ----------
+        function initAdd() {
+            var t = $('addTime');
+            for (var m = 1080; m <= 1500; m += 30) {
+                var op = document.createElement('option');
+                op.value = String(m); op.textContent = minLabel(m);
+                t.appendChild(op);
+            }
+            var s = $('addSeat');
+            seatTypes.forEach(function (st) {
+                var op = document.createElement('option');
+                op.value = st.id; op.textContent = st.name + '（定員' + st.total_capacity + '）';
+                s.appendChild(op);
+            });
+            $('addDate').value = bizToday();
+            ['addDate', 'addTime', 'addSeat', 'addParty'].forEach(function (id) {
+                $(id).addEventListener('change', checkCapacity);
+            });
+            $('addBtn').addEventListener('click', submitAdd);
+        }
+
+        function checkCapacity() {
+            var date = $('addDate').value, start = Number($('addTime').value), seatId = $('addSeat').value;
+            var party = Number($('addParty').value) || 0;
+            var seat = seatTypes.find(function (x) { return x.id === seatId; });
+            if (!date || !seat) return;
+            var stay = settings ? settings.default_stay_minutes : 120;
+            sb.from('reservations').select('party_size, start_min, seat_type_id, status').eq('date', date).eq('seat_type_id', seatId)
+                .in('status', ['pending', 'confirmed', 'seated']).then(function (r) {
+                    var used = (r.data || []).filter(function (x) {
+                        return x.start_min < start + stay && x.start_min + stay > start;
+                    }).reduce(function (a, x) { return a + x.party_size; }, 0);
+                    var remain = seat.total_capacity - used;
+                    $('addCapacity').textContent = remain < party
+                        ? '⚠ この席の残りは' + remain + '名分です（定員超過でも登録は可能。席繰りは店で調整）'
+                        : 'この時間帯の残り: ' + remain + '名分';
+                });
+        }
+
+        function submitAdd() {
+            var name = $('addName').value.trim(), phone = $('addPhone').value.replace(/[-\s]/g, '');
+            var msg = $('addMsg');
+            if (!name) { msg.textContent = 'お名前を入力してください。'; msg.className = 'msg err'; return; }
+            if (!/^0\d{9,10}$/.test(phone)) { msg.textContent = '電話番号の形式が正しくありません。'; msg.className = 'msg err'; return; }
+            $('addBtn').disabled = true;
+            // 顧客リストへ名寄せ
+            sb.from('customers').select('id, visit_count').eq('phone', phone).maybeSingle().then(function (c) {
+                var ensure = c.data
+                    ? Promise.resolve(c.data.id)
+                    : sb.from('customers').insert({ name: name, phone: phone }).select('id').single().then(function (n) { return n.data ? n.data.id : null; });
+                Promise.resolve(ensure).then(function (customerId) {
+                    return sb.from('reservations').insert({
+                        source: $('addSource').value,
+                        status: 'confirmed',
+                        date: $('addDate').value,
+                        start_min: Number($('addTime').value),
+                        party_size: Number($('addParty').value),
+                        seat_type_id: $('addSeat').value,
+                        customer_id: customerId,
+                        customer_name: name,
+                        customer_phone: phone,
+                        notes: $('addNotes').value.trim(),
+                        created_by: 'admin'
+                    }).select('id').single();
+                }).then(function (r) {
+                    $('addBtn').disabled = false;
+                    if (r.error) { msg.textContent = '登録に失敗しました。'; msg.className = 'msg err'; return; }
+                    msg.textContent = '登録しました。'; msg.className = 'msg ok';
+                    logAudit('manual_add_' + $('addSource').value, r.data.id);
+                    $('addName').value = ''; $('addPhone').value = ''; $('addNotes').value = '';
+                    checkCapacity();
+                });
+            });
+        }
+
+        // ---------- 営業日カレンダー ----------
+        $('dPrev').addEventListener('click', function () { dMonth--; if (dMonth < 0) { dMonth = 11; dYear--; } loadDays(); });
+        $('dNext').addEventListener('click', function () { dMonth++; if (dMonth > 11) { dMonth = 0; dYear++; } loadDays(); });
+        function loadDays() {
+            var from = dYear + '-' + pad(dMonth + 1) + '-01';
+            var last = new Date(dYear, dMonth + 1, 0).getDate();
+            var to = dYear + '-' + pad(dMonth + 1) + '-' + pad(last);
+            sb.from('special_days').select('*').gte('date', from).lte('date', to).then(function (r) {
+                specialMap = {};
+                (r.data || []).forEach(function (x) { specialMap[x.date] = x; });
+                drawDays(last);
+            });
+        }
+        function drawDays(lastDate) {
+            $('dTitle').textContent = dYear + '.' + pad(dMonth + 1);
+            var grid = $('dGrid');
+            grid.innerHTML = '';
+            ['日', '月', '火', '水', '木', '金', '土'].forEach(function (w) {
+                var el = document.createElement('span'); el.className = 'dw'; el.textContent = w; grid.appendChild(el);
+            });
+            var first = new Date(dYear, dMonth, 1).getDay();
+            for (var b = 0; b < first; b++) grid.appendChild(document.createElement('span'));
+            for (var d = 1; d <= lastDate; d++) {
+                var dateStr = dYear + '-' + pad(dMonth + 1) + '-' + pad(d);
+                var dow = new Date(dYear, dMonth, d).getDay();
+                var sp = specialMap[dateStr];
+                var btn = document.createElement('button');
+                btn.textContent = d;
+                var baseClosed = dow === 1; // 月曜定休
+                if (sp && sp.type === 'closed') btn.className = 'special-closed';
+                else if (sp && sp.type === 'open') btn.className = 'special-open';
+                else if (baseClosed) btn.className = 'closed';
+                btn.dataset.date = dateStr; btn.dataset.baseClosed = baseClosed ? '1' : '';
+                btn.addEventListener('click', onDayTap);
+                grid.appendChild(btn);
+            }
+        }
+        function onDayTap() {
+            var dateStr = this.dataset.date, baseClosed = this.dataset.baseClosed === '1';
+            var sp = specialMap[dateStr];
+            var done = function (p) { p.then(function (r) { if (r.error) flash('保存に失敗しました', true); loadDays(); }); };
+            if (sp) {
+                if (window.confirm(dateStr + ' の特別設定（' + (sp.type === 'closed' ? '休業' : '営業') + '）を解除しますか？')) {
+                    done(sb.from('special_days').delete().eq('date', dateStr));
+                }
+            } else if (baseClosed) {
+                if (window.confirm(dateStr + '（定休日）を営業日にしますか？')) {
+                    done(sb.from('special_days').insert({ date: dateStr, type: 'open', open_min: 1080, last_entry_min: 1410, close_min: 1530, note: '定休日営業' }));
+                }
+            } else {
+                if (window.confirm(dateStr + ' を休業日にしますか？')) {
+                    done(sb.from('special_days').insert({ date: dateStr, type: 'closed', note: '不定休' }));
+                }
+            }
+        }
+
+        // ---------- 顧客 ----------
+        var custTimer = null;
+        $('custSearch').addEventListener('input', function () {
+            clearTimeout(custTimer);
+            custTimer = setTimeout(loadCustomers, 300);
+        });
+        function loadCustomers() {
+            var kw = $('custSearch').value.trim();
+            var q = sb.from('customers').select('*').order('last_visit', { ascending: false, nullsFirst: false }).limit(50);
+            if (kw) q = q.or('name.ilike.%' + kw + '%,phone.ilike.%' + kw + '%');
+            q.then(function (r) {
+                var rows = r.data || [];
+                $('custList').innerHTML = rows.length === 0 ? '<p style="color:#888;">該当なし</p>' :
+                    rows.map(function (c) {
+                        return '<div class="card" data-id="' + c.id + '">' +
+                            '<div class="row1"><span>' + esc(c.name) + ' 様</span><span style="font-size:0.8rem;color:#666;">来店' + (c.visit_count || 0) + '回</span></div>' +
+                            '<div class="row2"><a href="tel:' + esc(c.phone) + '">' + esc(c.phone) + '</a>' +
+                            (c.last_visit ? '　最終来店: ' + c.last_visit : '') + '</div>' +
+                            '<label>メモ</label><textarea class="custNotes">' + esc(c.notes || '') + '</textarea>' +
+                            '<div class="actions"><button class="primary" data-act="save">メモ保存</button>' +
+                            '<button class="danger" data-act="del">削除</button></div></div>';
+                    }).join('');
+                $('custList').querySelectorAll('button[data-act]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var card = btn.closest('.card'), id = card.dataset.id;
+                        if (btn.dataset.act === 'save') {
+                            sb.from('customers').update({ notes: card.querySelector('.custNotes').value }).eq('id', id)
+                                .then(function (r2) { flash(r2.error ? '保存に失敗しました' : 'メモを保存しました', !!r2.error); });
+                        } else {
+                            if (!window.confirm('この顧客情報を完全に削除しますか？（削除依頼への対応用。元に戻せません）')) return;
+                            sb.from('customers').delete().eq('id', id).then(function (r2) {
+                                if (r2.error) { flash('削除に失敗しました（予約履歴が残っている場合は予約側の連絡先も確認）', true); return; }
+                                logAudit('delete_customer', id);
+                                loadCustomers();
+                            });
+                        }
+                    });
+                });
+            });
+        }
+
+        // ---------- 設定 ----------
+        function initSettings() {
+            drawEmailChips();
+            $('replyTo').value = settings.reply_to_email || '';
+            $('addEmailBtn').addEventListener('click', function () {
+                var v = $('newEmail').value.trim();
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return;
+                if (settings.notification_emails.indexOf(v) < 0) settings.notification_emails.push(v);
+                $('newEmail').value = '';
+                drawEmailChips();
+            });
+            $('saveSettingsBtn').addEventListener('click', function () {
+                sb.from('settings').update({
+                    notification_emails: settings.notification_emails,
+                    reply_to_email: $('replyTo').value.trim() || null
+                }).eq('id', 1).then(function (r) {
+                    var m = $('setMsg');
+                    m.textContent = r.error ? '保存に失敗しました。' : '保存しました。';
+                    m.className = 'msg ' + (r.error ? 'err' : 'ok');
+                });
+            });
+        }
+        function drawEmailChips() {
+            $('emailChips').innerHTML = (settings.notification_emails || []).map(function (e, i) {
+                return '<span class="chip">' + esc(e) + '<button data-i="' + i + '">×</button></span>';
+            }).join('') || '<span style="color:#888;font-size:0.85rem;">未登録（予約が来てもメールが届きません）</span>';
+            $('emailChips').querySelectorAll('button').forEach(function (b) {
+                b.addEventListener('click', function () {
+                    settings.notification_emails.splice(Number(b.dataset.i), 1);
+                    drawEmailChips();
+                });
+            });
+        }
+    })();
+    </script>
+</body>
+</html>
