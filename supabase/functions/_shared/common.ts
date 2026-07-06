@@ -54,6 +54,7 @@ export interface ReservationRow {
   customer_email: string | null;
   notes: string | null;
   cancel_token: string;
+  google_event_id?: string | null;
 }
 
 // ---------- 日付・時刻ヘルパー（JST基準） ----------

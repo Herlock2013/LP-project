@@ -14,6 +14,7 @@ import {
   STORE_TEL,
   StoreSettings,
 } from "../_shared/common.ts";
+import { gcalDelete, linePush } from "../_shared/notify.ts";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -36,7 +37,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     const { data } = await db
       .from("reservations")
-      .select("id, status, date, start_min, party_size, course_id, drink_option, customer_name, customer_phone, customer_email, notes, cancel_token")
+      .select("id, status, date, start_min, party_size, course_id, drink_option, customer_name, customer_phone, customer_email, notes, cancel_token, google_event_id")
       .eq("cancel_token", token)
       .single();
     const resv = data as ReservationRow | null;
@@ -99,6 +100,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
       });
       await logNotification(db, resv.id, "email_store", mail.ok, mail.detail);
     }
+
+    // LINE通知＋カレンダーから削除（未設定ならスキップ）
+    await linePush(db, resv.id, `【キャンセル】\n${dateLabel}\n${resv.customer_name} 様（Webからキャンセル）`);
+    if (resv.google_event_id) await gcalDelete(db, resv.id, resv.google_event_id);
 
     return jsonResponse({ ok: true, message: "キャンセルを承りました。確認メールをお送りしました。" });
   } catch (e) {

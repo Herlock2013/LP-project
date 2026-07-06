@@ -16,6 +16,7 @@ import {
   STORE_TEL,
   StoreSettings,
 } from "../_shared/common.ts";
+import { gcalDelete, gcalInsert, gcalPatchSummary } from "../_shared/notify.ts";
 
 interface NotifyBody {
   reservation_id: string;
@@ -46,11 +47,31 @@ Deno.serve(async (req: Request): Promise<Response> => {
     const db = adminClient();
     const { data } = await db
       .from("reservations")
-      .select("id, status, date, start_min, party_size, course_id, drink_option, customer_name, customer_phone, customer_email, notes, cancel_token")
+      .select("id, status, date, start_min, party_size, course_id, drink_option, customer_name, customer_phone, customer_email, notes, cancel_token, google_event_id")
       .eq("id", body.reservation_id)
       .single();
     const resv = data as ReservationRow | null;
     if (!resv) return jsonResponse({ error: "reservation not found" }, 404);
+
+    // Googleカレンダーを予約状態に同期（未設定ならスキップ）
+    const calSummary = `${minToLabel(resv.start_min)} ${resv.customer_name}様 ${resv.party_size}名`;
+    if (body.type === "confirmed") {
+      if (resv.google_event_id) {
+        await gcalPatchSummary(db, resv.id, resv.google_event_id, calSummary);
+      } else {
+        const newId = await gcalInsert(db, resv.id, {
+          date: resv.date,
+          startMin: resv.start_min,
+          stayMinutes: 120,
+          summary: calSummary,
+          description: `TEL: ${resv.customer_phone}\n受付: スタッフ確定`,
+        });
+        if (newId) await db.from("reservations").update({ google_event_id: newId }).eq("id", resv.id);
+      }
+    } else if (resv.google_event_id) {
+      await gcalDelete(db, resv.id, resv.google_event_id);
+    }
+
     if (!resv.customer_email) return jsonResponse({ ok: true, skipped: "メールアドレスなしのため送信なし" });
 
     const { data: settingsRow } = await db.from("settings").select("*").eq("id", 1).single();

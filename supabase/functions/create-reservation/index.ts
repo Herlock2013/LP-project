@@ -15,6 +15,7 @@ import {
   StoreSettings,
   verifyTurnstile,
 } from "../_shared/common.ts";
+import { gcalInsert, linePush } from "../_shared/notify.ts";
 
 interface CreateBody {
   date: string;
@@ -160,6 +161,23 @@ Deno.serve(async (req: Request): Promise<Response> => {
         text: `${isGroup ? "★団体の仮受付です。お客様へ確認のお電話をお願いします。\n\n" : ""}${detailBlock}\nお名前: ${body.name}\n電話: ${phone}\nメール: ${body.email}`,
       });
       await logNotification(db, result.id, "email_store", storeMail.ok, storeMail.detail);
+    }
+
+    // 7. LINE通知（店長）＋ Googleカレンダー登録（未設定ならスキップ）
+    await linePush(db, result.id,
+      (isGroup ? "【要電話確認・団体】\n" : "【新規予約】\n") +
+      `${dateLabel}\n${result.party_size}名 ${body.name} 様\nTEL ${phone}\n${courseLabel} / 飲み放題: ${drinkLabel}` +
+      (body.notes ? `\nメモ: ${body.notes}` : ""));
+
+    const eventId = await gcalInsert(db, result.id, {
+      date: result.date,
+      startMin: result.start_min,
+      stayMinutes: settings.default_stay_minutes,
+      summary: `${isGroup ? "【仮】" : ""}${minToLabel(result.start_min)} ${body.name}様 ${result.party_size}名`,
+      description: `TEL: ${phone}\n${courseLabel} / 飲み放題: ${drinkLabel}\n受付: Web${body.notes ? `\nメモ: ${body.notes}` : ""}`,
+    });
+    if (eventId) {
+      await db.from("reservations").update({ google_event_id: eventId }).eq("id", result.id);
     }
 
     return jsonResponse({
