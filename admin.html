@@ -431,21 +431,33 @@
             });
             $('listResult').innerHTML = rows.length === 0 ? '<p style="color:#888;">該当する予約はありません。</p>' :
                 rows.map(function (x) {
-                    var btns = ['pending', 'confirmed'].indexOf(x.status) >= 0 ? '<button class="danger" data-act="cancel">キャンセル</button>' : '';
+                    var btns = '';
+                    if (['pending', 'confirmed'].indexOf(x.status) >= 0) btns = '<button class="danger" data-act="cancel">キャンセル</button>';
+                    else btns = '<button class="danger" data-act="delete">削除</button>';
                     return resvCard(x, btns);
                 }).join('');
             $('listResult').querySelectorAll('button[data-act]').forEach(function (btn) {
                 btn.addEventListener('click', function () {
                     var card = btn.closest('.card');
                     var resv = rows.find(function (x) { return x.id === card.dataset.id; });
-                    if (!window.confirm('この予約をキャンセルしますか？（お客様へ通知メールが送られます）')) return;
-                    sb.from('reservations').update({ status: 'cancelled', updated_at: new Date().toISOString() }).eq('id', resv.id)
-                        .then(function (r2) {
-                            if (r2.error) { flash('更新に失敗しました', true); return; }
-                            logAudit('cancel_by_staff', resv.id);
-                            notifyCustomer(resv.id, 'cancelled');
+                    if (btn.dataset.act === 'cancel') {
+                        if (!window.confirm('この予約をキャンセルしますか？（お客様へ通知メールが送られます）')) return;
+                        sb.from('reservations').update({ status: 'cancelled', updated_at: new Date().toISOString() }).eq('id', resv.id)
+                            .then(function (r2) {
+                                if (r2.error) { flash('更新に失敗しました', true); return; }
+                                logAudit('cancel_by_staff', resv.id);
+                                notifyCustomer(resv.id, 'cancelled');
+                                loadList();
+                            });
+                    } else {
+                        if (!window.confirm('この予約履歴を完全に削除しますか？（元に戻せません）\n' + resv.date + ' ' + minLabel(resv.start_min) + ' ' + resv.customer_name + ' 様 ' + resv.party_size + '名')) return;
+                        logAudit('delete_reservation', resv.id);
+                        sb.from('reservations').delete().eq('id', resv.id).then(function (r2) {
+                            if (r2.error) { flash('削除に失敗しました', true); return; }
+                            flash('削除しました');
                             loadList();
                         });
+                    }
                 });
             });
         }
