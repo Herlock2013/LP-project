@@ -726,6 +726,28 @@ img {
     line-height: 1.9;
 }
 
+/* 飲み放題の込み/別タグ */
+.nomi-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    line-height: 1.6;
+    padding: 0 0.55em;
+    margin-left: 0.5em;
+    border-radius: 3px;
+    vertical-align: 0.1em;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+.nomi-included {
+    border: 1px solid #C29B27;
+    color: #C29B27;
+    font-weight: 500;
+}
+.nomi-addon {
+    border: 1px solid #c9c9c9;
+    color: #8a8a8a;
+}
+
 .party-plan {
     display: flex;
     flex-direction: column;
