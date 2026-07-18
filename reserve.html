@@ -61,10 +61,10 @@
 <body>
     <header class="header" id="header">
         <div class="header-inner">
-            <h1 class="logo"><a href="index.html" style="display: block; width: 100%; height: 100%;"><img src="images/header_logo.webp?v=20260615-2" alt="Dining Bar HerLock"></a></h1>
+            <div class="logo"><a href="/" style="display: block; width: 100%; height: 100%;"><img src="images/header_logo.webp?v=20260615-2" alt="Dining Bar HerLock" width="1280" height="435"></a></div>
             <nav class="nav">
                 <ul class="nav-list">
-                    <li><a href="index.html">TOP</a></li>
+                    <li><a href="/">TOP</a></li>
                 </ul>
             </nav>
         </div>
@@ -72,7 +72,7 @@
 
     <main>
         <div class="reserve-page">
-            <h2 class="section-title">RESERVATION</h2>
+            <h1 class="section-title">RESERVATION</h1>
 
             <!-- キャンセル画面（?cancel=トークン付きでアクセスした場合のみ表示） -->
             <div id="cancelView" class="hidden">
@@ -85,7 +85,9 @@
             <form id="reserveForm">
                 <div class="step">
                     <label class="step-label" for="party">人数<span class="req">必須</span></label>
-                    <select id="party" class="form-select" required></select>
+                    <select id="party" class="form-select" required>
+                        <option value="">人数を選択</option>
+                    </select>
                     <div id="groupNotice" class="notice-box">
                         団体でのご予約は<strong>仮受付</strong>となり、内容確認のお電話を店舗より差し上げます。<br>
                         ※コース料理の場合は、ご来店の1週間前〜2日前の間に5名以上の人数変更がある場合、キャンセル料が発生する可能性があります。人数の変更は都度ご連絡ください。
@@ -148,7 +150,7 @@
 
             <div class="done-box" id="doneBox">
                 <p id="doneText" style="line-height: 2.4;"></p>
-                <a href="index.html" class="btn btn-line" style="margin-top: 2rem;">トップへ戻る</a>
+                <a href="/" class="btn btn-line" style="margin-top: 2rem;">トップへ戻る</a>
             </div>
         </div>
     </main>
@@ -222,6 +224,7 @@
         // ---------- 人数 ----------
         (function initParty() {
             var sel = $('party');
+            sel.textContent = '';
             for (var i = 1; i <= 50; i++) {
                 var op = document.createElement('option');
                 op.value = String(i); op.textContent = i + '名';

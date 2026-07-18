@@ -399,7 +399,7 @@ img {
     margin-bottom: 0.75rem;
 }
 
-.wedding-hero__copy h2 {
+.wedding-hero__copy h1 {
     font-family: var(--font-ja);
     font-size: clamp(1.9rem, 4vw, 3.1rem);
     line-height: 1.45;
@@ -452,7 +452,7 @@ img {
     line-height: 1.6;
 }
 
-.wedding-plan h3 {
+.wedding-plan h2 {
     font-family: var(--font-ja);
     font-size: 1.22rem;
     line-height: 1.7;
@@ -484,8 +484,8 @@ img {
     border-top: 1px dashed var(--color-border);
 }
 
-.wedding-plan__block h4,
-.wedding-common h4 {
+.wedding-plan__block h3,
+.wedding-common h3 {
     font-family: var(--font-ja);
     font-size: 0.98rem;
     letter-spacing: 0.04em;
@@ -518,7 +518,7 @@ img {
     border-bottom: 1px solid var(--color-border);
 }
 
-.wedding-common > h3 {
+.wedding-common > h2 {
     font-family: var(--font-ja);
     font-size: 1.25rem;
     text-align: center;
@@ -634,7 +634,7 @@ img {
     margin-bottom: 0.75rem;
 }
 
-.party-hero__copy h2 {
+.party-hero__copy h1 {
     font-family: var(--font-ja);
     font-size: clamp(2rem, 4vw, 3.1rem);
     line-height: 1.45;
@@ -704,9 +704,9 @@ img {
     line-height: 1.6;
 }
 
-.party-card h4,
-.party-plan h4,
-.party-afterparty h4 {
+.party-card h3,
+.party-plan h3,
+.party-afterparty h3 {
     font-family: var(--font-ja);
     font-size: 1.12rem;
     letter-spacing: 0.04em;
@@ -777,9 +777,9 @@ img {
     border-top: 1px dashed var(--color-border);
 }
 
-.party-plan__block h5,
-.party-benefits h5,
-.party-course-list h4 {
+.party-plan__block h4,
+.party-benefits h4,
+.party-course-list h3 {
     font-family: var(--font-ja);
     font-size: 0.98rem;
     letter-spacing: 0.04em;
@@ -928,7 +928,7 @@ img {
     margin-bottom: 0.75rem;
 }
 
-.flair-hero__copy h2 {
+.flair-hero__copy h1 {
     font-family: var(--font-ja);
     font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.45;
@@ -993,8 +993,8 @@ img {
     line-height: 1.6;
 }
 
-.flair-plan h4,
-.flair-scene-grid h4 {
+.flair-plan h3,
+.flair-scene-grid h3 {
     font-family: var(--font-ja);
     font-size: 1.08rem;
     letter-spacing: 0.04em;
@@ -1544,7 +1544,7 @@ img {
         color: var(--color-text);
         text-shadow: 0 1px 14px rgba(255, 255, 255, 0.85);
     }
-    .wedding-hero__copy h2 {
+    .wedding-hero__copy h1 {
         font-size: 1.75rem;
         line-height: 1.55;
     }
@@ -1562,7 +1562,7 @@ img {
     .wedding-plan {
         padding: 1.5rem;
     }
-    .wedding-plan h3 {
+    .wedding-plan h2 {
         font-size: 1.08rem;
     }
     .wedding-plan__price {
@@ -1586,7 +1586,7 @@ img {
         bottom: 2rem;
         text-align: center;
     }
-    .party-hero__copy h2 {
+    .party-hero__copy h1 {
         font-size: 1.8rem;
         line-height: 1.55;
     }
@@ -1640,7 +1640,7 @@ img {
         bottom: 2rem;
         text-align: center;
     }
-    .flair-hero__copy h2 {
+    .flair-hero__copy h1 {
         font-size: 1.75rem;
         line-height: 1.55;
     }

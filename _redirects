@@ -1,0 +1,17 @@
+# Canonical public URLs: extensionless and without a trailing slash.
+/index.html / 301
+/index / 301
+/menu.html /menu 301
+/menu/ /menu 301
+/party.html /party 301
+/party/ /party 301
+/wedding.html /wedding 301
+/wedding/ /wedding 301
+/anniversary.html /anniversary 301
+/anniversary/ /anniversary 301
+/flair.html /flair 301
+/flair/ /flair 301
+/reserve.html /reserve 301
+/reserve/ /reserve 301
+/admin.html /admin 301
+/admin/ /admin 301
